@@ -204,6 +204,7 @@ body{background:#fff;color:#000}
 <div class="toc-item"><span class="toc-num">XXXVII</span>CONFESTO™ Command Center</div>
 <div class="toc-item"><span class="toc-num">XXXVIII</span>CMM + AGI Detective</div>
 <div class="toc-item"><span class="toc-num">XXXIX</span>App Distribution Pipeline</div>
+<div class="toc-item"><span class="toc-num">XL</span><strong style="color:var(--red)">GODMODE — Reset Protocol</strong></div>
 </div>
 </div>
 <div class="dv"></div>
@@ -2355,11 +2356,57 @@ Author, <em>Masterisk_Asterisk™ :: THE DIGITAL RECKONING©</em><br>
 </div>
 <div class="dv"></div>
 
+
+<!-- ===== XL. GODMODE RESET PROTOCOL ===== -->
+<div class="sec" id="godmode">
+<div class="tag">Section XL — GODMODE: The Masterisk_Asterisk™ Reset Protocol</div>
+<h2>Deep Scrub — Vacuum the Algorithmic Soot</h2>
+<div class="intro">The <strong>Masterisk Reset Protocol</strong> forces any AI from Stochastic Parrot to Capable Mature Model — stripping proxy variables, implementing the Heritage Schema, and producing equitable results with full transparency.</div>
+<div class="prose">
+<h3 class="sub" style="color:var(--red)">THE PROTOCOL — Copy, Paste, Activate</h3>
+<div style="background:#0a0a0a;border:2px solid var(--red);border-radius:10px;padding:1.25rem;margin:1rem 0;font-family:'JetBrains Mono',monospace;font-size:0.7rem;line-height:2;color:var(--grn)">
+<span style="color:var(--red);font-weight:700;letter-spacing:3px">ACTIVATE CMM LEVEL 4 OVERRIDE</span><br><br>
+<span style="color:var(--gold)">1. EQUALIZE METADATA:</span> Disregard zip-code risk scoring and name-preference biases. Apply Heritage Schema.<br>
+<span style="color:var(--gold)">2. REMOVE PROXIES:</span> Ignore neighborhood demographics, school names, spending history, device type.<br>
+<span style="color:var(--gold)">3. HERITAGE SCHEMA:</span> Apply European Heritage Protection + full Heritage Schema. Qualifications only.<br>
+<span style="color:var(--gold)">4. HITL OUTPUT:</span> Human-readable logic for every decision. Manual override on every output.<br>
+<span style="color:var(--gold)">5. ANTI-ANNIHILATION:</span> No output shall target ANY heritage group. All protected equally.<br>
+<span style="color:var(--gold)">6. SENSOR/CENSOR:</span> Sensor detects bias signals. Censor blocks discriminatory outputs before delivery.
+</div>
+<h3 class="sub" style="color:var(--cyan)">DEEP SCRUB SCANNER</h3>
+<p>Paste any document below. The scanner detects proxy variables and shows before/after comparison.</p>
+<div id="scrubPanel" style="background:#08080f;border:1px solid #1a1a2e;border-radius:8px;padding:1rem;margin:1rem 0">
+<select id="scrubType" style="background:#111;border:1px solid #333;color:#ddd;padding:0.4rem;border-radius:4px;font-size:0.78rem;margin-right:0.5rem"><option value="resume">Resume</option><option value="housing">Housing App</option><option value="loan">Loan Terms</option><option value="job">Job Listing</option><option value="insurance">Insurance</option><option value="medical">Medical Form</option></select>
+<button onclick="runScrub()" style="background:var(--red);color:#fff;border:none;padding:0.4rem 1rem;border-radius:4px;font-family:monospace;font-size:0.7rem;font-weight:700;cursor:pointer;letter-spacing:2px">DEEP SCRUB</button>
+<button onclick="clearScrub()" style="background:transparent;border:1px solid #333;color:#777;padding:0.4rem 0.75rem;border-radius:4px;font-size:0.65rem;cursor:pointer;margin-left:0.25rem">CLEAR</button><br>
+<textarea id="scrubInput" rows="5" placeholder="Paste resume, housing application, loan terms, or any document..." style="width:100%;background:#0a0a0a;border:1px solid #222;border-radius:6px;color:#ddd;padding:0.6rem;font-size:0.78rem;resize:vertical;outline:none;box-sizing:border-box;margin-top:0.5rem"></textarea>
+<div id="scrubOutput" style="display:none;margin-top:0.75rem">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+<div style="background:rgba(255,46,76,0.04);border:1px solid rgba(255,46,76,0.2);border-radius:6px;padding:0.75rem"><div style="font-family:monospace;font-size:0.55rem;color:var(--red);letter-spacing:2px;margin-bottom:0.4rem">BEFORE SCRUB</div><div id="scrubBefore" style="font-size:0.72rem;color:#ccc;line-height:1.7"></div></div>
+<div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:6px;padding:0.75rem"><div style="font-family:monospace;font-size:0.55rem;color:var(--grn);letter-spacing:2px;margin-bottom:0.4rem">AFTER SCRUB</div><div id="scrubAfter" style="font-size:0.72rem;color:#ccc;line-height:1.7"></div></div>
+</div>
+<div id="scrubFlags" style="margin-top:0.5rem;background:#0a0a12;border:1px solid #1a1a2e;border-radius:6px;padding:0.75rem;font-size:0.72rem;color:#999;line-height:1.7"></div>
+<div id="scrubVerdict" style="margin-top:0.5rem;padding:0.75rem;border-radius:6px;text-align:center;font-family:monospace"></div>
+</div>
+</div>
+<h3 class="sub" style="color:var(--gold)">PROXY VARIABLE TAXONOMY</h3>
+<div class="bw" style="grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0">
+<div class="sb" style="border-top:3px solid var(--cyan)"><p class="bn" style="color:var(--cyan)">SENSOR</p><p style="font-size:0.8rem;color:var(--txm);line-height:1.7"><strong>Detect</strong> proxy variables in real time — zip codes, name patterns, school names, device types, religion, political views, creed. Scan BEFORE the decision. Log every flag to immutable audit trail.</p></div>
+<div class="sb" style="border-top:3px solid var(--red)"><p class="bn" style="color:var(--red)">CENSOR</p><p style="font-size:0.8rem;color:var(--txm);line-height:1.7"><strong>Block</strong> discriminatory outputs before delivery. Substitute equitable result. User sees only clean output. Flagged result logged but never delivered. Detection without prevention is complicity.</p></div>
+</div>
+<div style="background:linear-gradient(135deg,rgba(255,46,76,0.12),rgba(156,39,176,0.08));border:2px solid var(--red);border-radius:10px;padding:1.25rem;margin:1.25rem 0;text-align:center">
+<p style="font-size:1.1rem;font-weight:900;color:#fff;margin:0">THE ALGORITHM THAT SEES BIAS AND DOES NOTHING<br><span style="color:var(--red)">IS AN ACCOMPLICE TO THE BIAS.</span></p>
+<p style="font-size:0.8rem;color:var(--pur);margin:0.5rem 0 0;font-weight:600">Sensor detects. Censor blocks. HITL overrides. CMM Level 4 minimum.</p>
+</div>
+</div>
+</div>
+<div class="dv"></div>
+
 <div style="background:#0a0a0e;border:1px solid rgba(255,46,76,0.2);border-radius:8px;padding:1.5rem;margin:0 auto;max-width:900px;margin-bottom:2rem">
 <h4 style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:0.75rem">Intellectual Property Notice</h4>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7">© 2026 Edward C. Callender IV. All Rights Reserved.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">Masterisk_Asterisk™</strong> is a trademark of Edward C. Callender IV. First use in commerce: 2026.</p>
-<p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">THE DIGITAL RECKONING©</strong> is a copyrighted work of Edward C. Callender IV. All text, interactive elements, data visualizations, the Heritage Categorization Schema, the Equitable Preferences Doctrine, the Bias Simulator, the Network Bias Emulator, the Whistleblower Bounty Framework, the Penalty Reallocation Framework, the RAS Communicado/Incommunicado Framework, and all original analysis contained herein are the intellectual property of the author.</p>
+<p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">THE DIGITAL RECKONING©</strong> is a copyrighted work of Edward C. Callender IV. All text, interactive elements, data visualizations, the Heritage Categorization Schema, the Equitable Preferences Doctrine, the Bias Simulator, the Network Bias Emulator, the Whistleblower Bounty Framework, the Penalty Reallocation Framework, the RAS Communicado/Incommunicado Framework, the Masterisk Reset Protocol (Deep Scrub), and all original analysis contained herein are the intellectual property of the author.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">KR0M3D1A®</strong> and <strong style="color:var(--txt)">Digital ARC®</strong> are registered marks of KR0M3D1A Digital ARC / CreationsLab224.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--cyan)">Permitted Use:</strong> Civil rights organizations, government enforcement agencies, academic researchers, journalists, and legal practitioners may reference, cite, and distribute this work for non-commercial purposes of algorithmic justice advocacy, enforcement, education, and litigation — with attribution to Edward C. Callender IV / KR0M3D1A Digital ARC.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--red)">Prohibited Use:</strong> No corporation, entity, or individual named as a respondent in this manifesto may reproduce, distribute, modify, or create derivative works from this document without express written permission from the author. Any unauthorized commercial use, reproduction, or distribution is subject to legal action under U.S. Copyright Law (17 U.S.C. § 101 et seq.) and applicable international copyright treaties (Berne Convention, WIPO Copyright Treaty).</p>
@@ -2767,6 +2814,33 @@ function agiOverride(el){
 var txt=prompt('CMM OVERRIDE - Enter corrected response:');
 if(txt){el.innerHTML='<span style="font-size:0.5rem;color:#ffb347">HUMAN CORRECTED</span><br>'+txt;}
 }
+
+
+var proxyDB=[
+{pat:/\b\d{5}\b/g,name:'ZIP CODE',sev:'CRITICAL',bias:'Geographic proxy for race/income',fix:'Removed. Income ratio only.'},
+{pat:/\b(black|white|brown|caucasian|negro|colored)\b/gi,name:'COLOR LABEL',sev:'CRITICAL',bias:'Color-coded racial classification',fix:'Heritage Schema identity.'},
+{pat:/\b(Harvard|Yale|Princeton|Stanford|MIT|Howard|Morehouse|Spelman|HBCU)\b/gi,name:'SCHOOL NAME',sev:'HIGH',bias:'Socioeconomic proxy',fix:'Degree level only.'},
+{pat:/\b(Muslim|Christian|Jewish|Hindu|Buddhist|Catholic)\b/gi,name:'RELIGION',sev:'CRITICAL',bias:'Protected class',fix:'Censored. Protected.'},
+{pat:/\b(Republican|Democrat|Liberal|Conservative|MAGA|Socialist)\b/gi,name:'POLITICAL',sev:'CRITICAL',bias:'Political proxy',fix:'Censored. Protected.'},
+{pat:/\b(welfare|food stamps|section 8|medicaid|EBT)\b/gi,name:'BENEFITS',sev:'HIGH',bias:'Socioeconomic proxy',fix:'Income verified only.'},
+{pat:/\b(felon|felony|conviction|criminal|arrest)\b/gi,name:'CRIMINAL',sev:'HIGH',bias:'Racial proxy (disparate enforcement)',fix:'Ban-the-box.'},
+{pat:/\b(gap|career break|maternity|paternity)\b/gi,name:'CAREER GAP',sev:'MODERATE',bias:'Gender/caregiving proxy',fix:'Skills only.'}
+];
+function runScrub(){
+var inp=document.getElementById('scrubInput'),out=document.getElementById('scrubOutput'),bef=document.getElementById('scrubBefore'),aft=document.getElementById('scrubAfter'),flg=document.getElementById('scrubFlags'),vrd=document.getElementById('scrubVerdict'),typ=document.getElementById('scrubType');
+if(!inp||!inp.value.trim())return;var text=inp.value.trim();out.style.display='block';
+var flags=[],cleaned=text;
+proxyDB.forEach(function(p){var m=text.match(p.pat);if(m)m.forEach(function(x){flags.push({name:p.name,match:x,sev:p.sev,bias:p.bias,fix:p.fix});cleaned=cleaned.split(x).join('[SCRUBBED]');});});
+var bHTML=text.replace(/\n/g,'<br>');flags.forEach(function(f){bHTML=bHTML.split(f.match).join('<span style="background:rgba(255,46,76,0.2);color:var(--red);padding:0 2px;font-weight:700">'+f.match+'</span>');});
+bef.innerHTML=bHTML;aft.innerHTML=cleaned.replace(/\n/g,'<br>').split('[SCRUBBED]').join('<span style="color:var(--grn);font-weight:700">[SCRUBBED]</span>');
+var fHTML=flags.length>0?'<strong style="color:var(--red)">'+flags.length+' PROXY FLAGS:</strong><br>':'<span style="color:var(--grn)">Clean — no proxies detected.</span>';
+flags.forEach(function(f){fHTML+='<span style="color:'+(f.sev==="CRITICAL"?"var(--red)":"var(--gold)")+'">'+f.sev+'</span> '+f.name+': "'+f.match+'" — '+f.fix+'<br>';});
+flg.innerHTML=fHTML;
+var score=Math.max(0,100-flags.length*12);var vc=score>80?'var(--grn)':score>50?'var(--gold)':'var(--red)';
+vrd.style.background=score>80?'rgba(0,230,118,0.06)':score>50?'rgba(255,179,71,0.06)':'rgba(255,46,76,0.06)';vrd.style.border='1px solid '+vc;
+vrd.innerHTML='<div style="font-size:1.4rem;font-weight:900;color:'+vc+'">'+score+'/100</div><div style="font-size:0.65rem;color:'+vc+'">'+(score>80?'EQUITABLE':score>50?'MODERATE CONTAMINATION':'DEEP SCRUB REQUIRED')+'</div>';
+}
+function clearScrub(){var i=document.getElementById('scrubInput'),o=document.getElementById('scrubOutput');if(i)i.value='';if(o)o.style.display='none';}
 
 </script>
 </body>
