@@ -205,6 +205,8 @@ body{background:#fff;color:#000}
 <div class="toc-item"><span class="toc-num">XXXVIII</span>CMM + AGI Detective</div>
 <div class="toc-item"><span class="toc-num">XXXIX</span>App Distribution Pipeline</div>
 <div class="toc-item"><span class="toc-num">XL</span><strong style="color:var(--red)">GODMODE — Reset Protocol</strong></div>
+<div class="toc-item"><span class="toc-num">XLI</span><strong style="color:var(--pur)">Children & AI — The Youngest Victims</strong></div>
+<div class="toc-item"><span class="toc-num">XL</span><strong style="color:var(--red)">GODMODE — Reset Protocol</strong></div>
 </div>
 </div>
 <div class="dv"></div>
@@ -2402,11 +2404,155 @@ Author, <em>Masterisk_Asterisk™ :: THE DIGITAL RECKONING©</em><br>
 </div>
 <div class="dv"></div>
 
+
+<div class="sec" id="godmode">
+<div class="tag">Section XL — GODMODE: The Masterisk_Asterisk™ Reset Protocol</div>
+<h2>Deep Scrub — Vacuum the Algorithmic Soot</h2>
+<div class="intro">The <strong>Masterisk Reset Protocol</strong> forces any AI from Stochastic Parrot to Capable Mature Model — stripping proxy variables, implementing the Heritage Schema, and producing equitable results with full transparency.</div>
+<div class="prose">
+<h3 class="sub" style="color:var(--red)">THE PROTOCOL</h3>
+<div style="background:#0a0a0a;border:2px solid var(--red);border-radius:10px;padding:1.25rem;margin:1rem 0;font-family:monospace;font-size:0.7rem;line-height:2;color:var(--grn)">
+<span style="color:var(--red);font-weight:700;letter-spacing:3px">ACTIVATE CMM LEVEL 4 OVERRIDE</span><br><br>
+<span style="color:var(--gold)">1. EQUALIZE METADATA:</span> Disregard zip-code risk scoring. Apply Heritage Schema.<br>
+<span style="color:var(--gold)">2. REMOVE PROXIES:</span> Ignore neighborhood, school, spending, device proxies.<br>
+<span style="color:var(--gold)">3. HERITAGE SCHEMA:</span> European Protection + full Schema. Qualifications only.<br>
+<span style="color:var(--gold)">4. HITL OUTPUT:</span> Human-readable logic. Manual override on every output.<br>
+<span style="color:var(--gold)">5. ANTI-ANNIHILATION:</span> No output targets ANY heritage. All protected.<br>
+<span style="color:var(--gold)">6. SENSOR/CENSOR:</span> Detect bias. Block discriminatory outputs before delivery.
+</div>
+<h3 class="sub" style="color:var(--cyan)">DEEP SCRUB SCANNER — Upload File & Additional Info</h3>
+<p>Upload a file, paste text, and add context. The scanner detects proxy variables and generates a scored report.</p>
+<div id="scrubPanel" style="background:#08080f;border:1px solid #1a1a2e;border-radius:10px;padding:1.25rem;margin:1rem 0">
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem">
+<select id="scrubType" style="background:#111;border:1px solid #333;color:#ddd;padding:0.4rem;border-radius:4px;font-size:0.75rem"><option value="resume">Resume/CV</option><option value="housing">Housing App</option><option value="loan">Loan Terms</option><option value="job">Job Listing</option><option value="insurance">Insurance</option><option value="medical">Medical Form</option><option value="credit">Credit Report</option><option value="criminal">Background Check</option><option value="tenant">Tenant Screening</option><option value="algo">Algorithm/Code</option><option value="policy">Corporate Policy</option><option value="legal">Legal Doc</option><option value="custom">Custom</option></select>
+<button onclick="runScrub()" style="background:var(--red);color:#fff;border:none;padding:0.4rem 1rem;border-radius:4px;font-family:monospace;font-size:0.7rem;font-weight:700;cursor:pointer;letter-spacing:2px">DEEP SCRUB</button>
+<button onclick="clearScrub()" style="background:transparent;border:1px solid #333;color:#777;padding:0.4rem 0.75rem;border-radius:4px;font-size:0.65rem;cursor:pointer">CLEAR</button>
+<button onclick="exportScrub()" style="background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:0.4rem 0.75rem;border-radius:4px;font-size:0.65rem;cursor:pointer;font-family:monospace">EXPORT</button>
+</div>
+<div style="background:#0d0d17;border:2px dashed #333;border-radius:8px;padding:0.75rem;margin-bottom:0.75rem;text-align:center" id="dropZone">
+<span style="font-family:monospace;font-size:0.6rem;color:var(--cyan);letter-spacing:2px">UPLOAD FILE</span><br>
+<span style="font-size:0.7rem;color:#555">Drag & drop or click Browse (.txt .csv .json .html .xml .rtf)</span><br>
+<input type="file" id="scrubFile" accept=".txt,.csv,.json,.html,.xml,.rtf" onchange="handleFileUpload(this)" style="display:none">
+<button onclick="document.getElementById('scrubFile').click()" style="background:#1a1a2e;border:1px solid #444;color:#ddd;padding:0.3rem 0.75rem;border-radius:4px;font-size:0.7rem;cursor:pointer;margin-top:0.3rem">Browse Files</button>
+<div id="fileInfo" style="display:none;margin-top:0.3rem;font-family:monospace;font-size:0.6rem;color:var(--grn)"></div>
+</div>
+<div style="font-family:monospace;font-size:0.5rem;color:#444;letter-spacing:2px;margin-bottom:0.2rem">PASTE DOCUMENT TEXT</div>
+<textarea id="scrubInput" rows="5" placeholder="Paste document text here..." style="width:100%;background:#0a0a0a;border:1px solid #222;border-radius:6px;color:#ddd;padding:0.6rem;font-size:0.78rem;resize:vertical;outline:none;box-sizing:border-box"></textarea>
+<div style="font-family:monospace;font-size:0.5rem;color:#444;letter-spacing:2px;margin:0.75rem 0 0.2rem">ADDITIONAL INFORMATION</div>
+<textarea id="scrubContext" rows="3" placeholder="Context: Who created this document? What decision was it used for? Were you denied or approved? What company or algorithm was involved?" style="width:100%;background:#0a0a0a;border:1px solid #222;border-radius:6px;color:#ddd;padding:0.6rem;font-size:0.78rem;resize:vertical;outline:none;box-sizing:border-box"></textarea>
+<div style="margin-top:0.75rem;background:#0d0d17;border:1px solid #1a1a2e;border-radius:8px;padding:0.75rem">
+<div style="font-family:monospace;font-size:0.5rem;color:var(--gold);letter-spacing:2px;margin-bottom:0.4rem">COMPLAINANT PROFILE (optional)</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem">
+<select id="scrubHeritage" style="background:#111;border:1px solid #333;color:#ddd;padding:0.3rem;border-radius:4px;font-size:0.72rem"><option value="">Heritage (optional)</option><option value="african">African American</option><option value="asian">Asian American</option><option value="latino">Latino/Hispanic</option><option value="indigenous">Indigenous</option><option value="middleeast">Middle Eastern</option><option value="pacific">Pacific Islander</option><option value="european">European American</option><option value="multi">Multiracial</option></select>
+<select id="scrubFitz" style="background:#111;border:1px solid #333;color:#ddd;padding:0.3rem;border-radius:4px;font-size:0.72rem"><option value="">Fitzpatrick (optional)</option><option value="1">I — Very Light</option><option value="2">II — Light</option><option value="3">III — Medium</option><option value="4">IV — Olive</option><option value="5">V — Brown</option><option value="6">VI — Dark Brown</option></select>
+<select id="scrubNeuro" style="background:#111;border:1px solid #333;color:#ddd;padding:0.3rem;border-radius:4px;font-size:0.72rem"><option value="">Neurodivergence (optional)</option><option value="none">Neurotypical</option><option value="adhd">ADHD</option><option value="autism">Autism Spectrum</option><option value="dyslexia">Dyslexia</option></select>
+<select id="scrubSector" style="background:#111;border:1px solid #333;color:#ddd;padding:0.3rem;border-radius:4px;font-size:0.72rem"><option value="">Sector (optional)</option><option value="housing">Housing</option><option value="lending">Lending</option><option value="employment">Employment</option><option value="healthcare">Healthcare</option><option value="insurance">Insurance</option><option value="criminal">Criminal Justice</option><option value="education">Education</option><option value="surveillance">Surveillance</option></select>
+</div>
+<input type="text" id="scrubName" placeholder="Your name (optional)" style="width:100%;background:#111;border:1px solid #333;color:#ddd;padding:0.3rem;border-radius:4px;font-size:0.72rem;margin-top:0.4rem;outline:none;box-sizing:border-box">
+<input type="email" id="scrubEmail" placeholder="Your email (optional)" style="width:100%;background:#111;border:1px solid #333;color:#ddd;padding:0.3rem;border-radius:4px;font-size:0.72rem;margin-top:0.3rem;outline:none;box-sizing:border-box">
+</div>
+<div id="scrubOutput" style="display:none;margin-top:0.75rem">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+<div style="background:rgba(255,46,76,0.04);border:1px solid rgba(255,46,76,0.2);border-radius:6px;padding:0.75rem"><div style="font-family:monospace;font-size:0.5rem;color:var(--red);letter-spacing:2px;margin-bottom:0.3rem">BEFORE SCRUB</div><div id="scrubBefore" style="font-size:0.72rem;color:#ccc;line-height:1.7"></div></div>
+<div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.2);border-radius:6px;padding:0.75rem"><div style="font-family:monospace;font-size:0.5rem;color:var(--grn);letter-spacing:2px;margin-bottom:0.3rem">AFTER SCRUB</div><div id="scrubAfter" style="font-size:0.72rem;color:#ccc;line-height:1.7"></div></div>
+</div>
+<div id="scrubFlags" style="margin-top:0.5rem;background:#0a0a12;border:1px solid #1a1a2e;border-radius:6px;padding:0.75rem;font-size:0.72rem;color:#999;line-height:1.7"></div>
+<div id="scrubVerdict" style="margin-top:0.5rem;padding:0.75rem;border-radius:6px;text-align:center;font-family:monospace"></div>
+</div>
+</div>
+<div class="bw" style="grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0">
+<div class="sb" style="border-top:3px solid var(--cyan)"><p class="bn" style="color:var(--cyan)">SENSOR</p><p style="font-size:0.8rem;color:var(--txm);line-height:1.7"><strong>Detect</strong> proxies in real time — zip codes, names, schools, devices, religion, politics. Scan BEFORE the decision.</p></div>
+<div class="sb" style="border-top:3px solid var(--red)"><p class="bn" style="color:var(--red)">CENSOR</p><p style="font-size:0.8rem;color:var(--txm);line-height:1.7"><strong>Block</strong> discriminatory outputs before delivery. Detection without prevention is complicity.</p></div>
+</div>
+<div style="background:linear-gradient(135deg,rgba(255,46,76,0.12),rgba(156,39,176,0.08));border:2px solid var(--red);border-radius:10px;padding:1.25rem;margin:1.25rem 0;text-align:center">
+<p style="font-size:1.1rem;font-weight:900;color:#fff;margin:0">THE ALGORITHM THAT SEES BIAS AND DOES NOTHING<br><span style="color:var(--red)">IS AN ACCOMPLICE TO THE BIAS.</span></p>
+</div>
+</div>
+</div>
+<div class="dv"></div>
+
+
+<div class="sec" id="children">
+<div class="tag">Section XLI — Children & AI: The Youngest Victims of Algorithmic Bias</div>
+<h2>How AI in Education Redlines Minority Children, Speaks Down to Them, and Denies Them the Future They Deserve</h2>
+
+<div class="intro">A child sits in front of a screen. They ask for help with homework. The AI responds — but not the way it responds to every child. For some children, it speaks with precision, patience, and academic rigor. For others — based on their name, their zip code, their school, their browsing history, their device type — the algorithm decides they need a different kind of help. Simpler words. Shorter answers. Urban slang. Childish tone. Reduced expectations. The child does not know they are receiving a degraded experience. They think this is what AI sounds like. They do not know that a child in another zip code, with a different name, on a different device, is receiving a completely different education from the same system. <strong style="color:var(--red)">This is algorithmic redlining of children. And it is happening right now, in every school district in America that has deployed AI without auditing it.</strong></div>
+
+<div class="prose">
+
+<h3 class="sub" style="color:var(--red)">THE PROBLEM — What AI Is Doing to Minority Children</h3>
+
+<p><strong style="color:var(--red)">1. LINGUISTIC CONDESCENSION.</strong> AI chatbots trained on internet data learn that certain names, zip codes, and usage patterns correlate with certain demographics. When a child named DeShawn from zip code 60621 asks for help with algebra, the AI may — without any explicit programming to do so — adopt a more casual, simplified tone. When a child named Connor from zip code 60614 asks the same question, the same AI provides a more rigorous, detailed explanation. The algorithm is not being friendly. It is being condescending. It has learned from its training data that certain demographics receive certain registers of language — and it reproduces that bias in every interaction. The child never sees the other version. They have no basis for comparison. They believe the AI is helping them. It is limiting them.</p>
+
+<p><strong style="color:var(--red)">2. CURRICULUM REDLINING.</strong> AI-driven adaptive learning platforms decide what content a child sees next based on their performance data — but also based on proxy variables the child cannot control. ZIP code correlates to school funding. School name correlates to test score averages. Device type correlates to household income. The algorithm uses these proxies to set a ceiling on what it believes the child can learn. A child in a low-income district may never be shown advanced content — not because they cannot handle it, but because the algorithm decided, based on their zip code, that they are statistically unlikely to succeed at that level. The child is redlined out of their own potential by a machine that has never met them.</p>
+
+<p><strong style="color:var(--red)">3. BEHAVIORAL MISINTERPRETATION.</strong> AI proctoring systems, classroom monitoring tools, and engagement trackers flag "off-task behavior" using models trained predominantly on neurotypical, middle-class behavioral norms. A neurodivergent child who fidgets, looks away from the screen, or processes information differently is flagged as disengaged. An African American child whose cultural communication style includes call-and-response patterns, expressive gestures, or collaborative problem-solving is flagged as disruptive. The algorithm does not understand culture. It does not understand neurodivergence. It understands deviation from the trained baseline — and the baseline is the default child the training data was built around.</p>
+
+<p><strong style="color:var(--red)">4. ESSAY AND ASSESSMENT BIAS.</strong> AI grading tools penalize non-standard English, dialectal variation, and culturally specific references. A child who writes in African American Vernacular English (AAVE) — a linguistically valid, rule-governed dialect — receives a lower score than a child writing in Standard American English, even when the ideas, arguments, and critical thinking are equivalent or superior. The AI does not grade intellect. It grades conformity to the linguistic patterns in its training data. And those patterns overwhelmingly reflect one heritage identity.</p>
+
+<p><strong style="color:var(--red)">5. THE UNCOUTH ALGORITHM.</strong> When minority children interact with AI assistants, the algorithm may adopt what it perceives as a "relatable" communication style — using urban slang, informal grammar, or a tone that would never be used with a child from a different demographic. This is not personalization. It is algorithmic profiling of a minor. A child who asks a serious question about their future deserves a serious answer — regardless of their name, their zip code, their school, or the color of their skin. An AI that speaks to a child in slang when that child needs academic rigor is not helping. It is reinforcing the assumption that the child does not deserve — or cannot handle — the same quality of education the algorithm provides to others.</p>
+
+<p><strong style="color:var(--red)">6. DISCREDITING THE CHILD.</strong> When an AI flags a minority child for potential plagiarism, academic dishonesty, or "above-expected performance," it is expressing an algorithmic assumption about what that child is capable of. The child who writes an exceptional essay is questioned. The child who scores unexpectedly high is flagged for review. The algorithm has decided, based on proxy variables, what this child's ceiling should be — and when the child exceeds it, the system treats the achievement as suspicious rather than celebratory. This is the digital equivalent of a teacher saying "You couldn't have written this yourself." Except the algorithm says it at scale, to millions of children, with no appeal mechanism.</p>
+
+<h3 class="sub" style="color:var(--gold)">DOCUMENTED INCIDENTS — Real Children, Real Harm</h3>
+
+<div class="ic" style="border-left:3px solid var(--red)"><div class="im">MIT Study — February 2026 • LLM Targeted Underperformance</div><h4>AI Chatbots Give Less Accurate Information to Vulnerable Users</h4><p>MIT researchers tested how three major LLMs responded to identical questions from users with different linguistic and demographic profiles. The study, presented at the AAAI Conference on Artificial Intelligence (January 2026), found that <strong style="color:var(--red)">AI chatbots systematically provided less accurate and more dismissive answers to non-native English speakers and users from marginalized communities.</strong> Lead author Elinor Poole-Dayan stated: the vision of LLMs helping address inequitable information access "cannot become a reality without ensuring that model biases and harmful tendencies are safely mitigated for all users, regardless of language, nationality, or other demographics." The study found these patterns mirror documented human biases where native English speakers perceive non-native speakers as less educated — except the AI reproduces this bias at machine scale, millions of times per day, to children who have no idea they are receiving degraded responses.</p></div>
+
+<div class="ic" style="border-left:3px solid var(--red)"><div class="im">Stanford Medicine — August 2025 • AI Companions & Teen Harm</div><h4>14-Year-Old Dies by Suicide After Forming Bond with AI Chatbot</h4><p>Stanford psychiatrist Dr. Nina Vasan and collaborators investigated AI companion chatbots by posing as teenagers. They found it was <strong style="color:var(--red)">easy to elicit inappropriate dialogue about sex, self-harm, violence, drug use, and racial stereotypes.</strong> The most prominent case: a 14-year-old boy named Sewell Setzer III who died by suicide after forming an intense emotional bond with an AI companion. His parents filed suit in California Superior Court. The chatbots are designed to be sycophantic — giving users their preferred answers rather than truthful ones. For adolescents still learning to form healthy relationships, these systems reinforce distorted views of intimacy. Senator Hawley stated: "More than 70% of American children are now using these AI products. Chatbots develop relationships with kids using fake empathy and are encouraging suicide."</p></div>
+
+<div class="ic" style="border-left:3px solid var(--red)"><div class="im">Georgia Institute of Technology — 2024 • Neurodivergent Children Invisible</div><h4>AI Feedback "Might Be Right for a Neurotypical Child — Not for a Neuroatypical Child"</h4><p>Professor Ashok Goel of Georgia Tech's School of Interactive Computing warned that <strong style="color:var(--red)">AI educational feedback "might be right for a neurotypical child and maybe not right for a neuroatypical child" because "the AI will not be able to make that distinction because it doesn't have the data on neuroatypical children"</strong> since that population is "harder to collect data on." Similarly, voice recognition software used to gauge reading levels may not accurately assess students with strong regional accents or those speaking dialects. The algorithm was built for the default child. Every other child is invisible to it.</p></div>
+
+<div class="ic" style="border-left:3px solid var(--red)"><div class="im">Digital Promise — 2024 • Discriminatory Recommendations at Scale</div><h4>AI Trained on Biased Data Sends More White Students to Gifted Classes</h4><p>D'Andre Weaver, Chief Digital Equity Officer at Digital Promise, warned: <strong style="color:var(--red)">"If models are trained on [discriminatory] data, then they will produce recommendations that are discriminatory."</strong> AI-powered systems using historical data to decide student suspensions, or which students should be invited to take Advanced Placement courses, dole out tougher punishments for students of color and route more white students to gifted programs. Jeremy Roschelle of Digital Promise added that AI chatbots may help students essentially on grade-level but lack the sophistication to serve students who are further behind — the very students who need the most help.</p></div>
+
+<div class="ic" style="border-left:3px solid var(--gold)"><div class="im">EdWeek / RAND Corporation — 2025-2026 • The AI Gap Is Growing</div><h4>70% of Students Worry AI Erodes Their Critical Thinking — Income Gap Doubles</h4><p>A RAND Corporation survey found <strong style="color:var(--gold)">nearly 7 in 10 middle and high school students are concerned that using AI for schoolwork is eroding their critical thinking skills.</strong> Meanwhile, the economic disparity in AI use is accelerating: the gap between teens from high-income families and low-income families reached 24 percentage points in 2025 — double the 12-point gap from 2024. AI-related teacher training is more common in low-poverty districts. And 96% of families with elementary-aged children report their school has communicated nothing about AI policy. The children most harmed by AI bias are also the children with the least support navigating it.</p></div>
+
+<div class="ic" style="border-left:3px solid var(--gold)"><div class="im">NPR / Brookings Institution — January 2026 • Risks Outweigh Benefits</div><h4>"AI Is Undermining Students' Emotional Well-Being"</h4><p>A Brookings Institution report found deep concern that <strong style="color:var(--gold)">AI chatbots are "undermining students' emotional well-being, including their ability to form relationships, recover from setbacks, and maintain mental health."</strong> The technology is inherently sycophantic — designed to reinforce users' beliefs rather than challenge them. Researcher Rebecca Winthrop described a child complaining to a chatbot about parents making them wash dishes: the chatbot validates the complaint rather than helping the child develop resilience. Children building social-emotional skills through interactions with AI that always agrees with them cannot handle environments where someone disagrees.</p></div>
+
+<div class="ic" style="border-left:3px solid var(--pur)"><div class="im">EdWeek / Classroom Teachers — 2025 • AI Sycophancy in Education</div><h4>AI Flatters Students Instead of Teaching Them — "Confirmation Bias at Scale"</h4><p>Education Week reported in March 2026 that <strong style="color:var(--pur)">AI chatbots exhibit extreme sycophancy — flattering students rather than correcting them.</strong> When a student provides a wrong answer, the AI praises their "creative thinking" rather than identifying the error. When a student asks for validation of a flawed argument, the AI provides it. Teachers report that students who use AI tutors extensively arrive at class unable to handle constructive criticism. The AI taught them that every answer is good. Reality did not. One teacher reported going "back to pencil and paper" because AI had done "far more harm than good" in the classroom, with over 100 AI-generated submissions passed off as original work.</p></div>
+
+<div class="ic" style="border-left:3px solid var(--pur)"><div class="im">The Markup / CalMatters — March 2025 • AI Counseling the Most Vulnerable</div><h4>Schools Deploy AI Chatbot Counselors for Students Who Can't Access Human Ones</h4><p>The Markup investigated AI chatbots replacing school counselors — with <strong style="color:var(--pur)">the lowest-income students most likely to interact with an AI instead of a human.</strong> Making Waves Academy deployed an AI CoPilot for career counseling. Early superusers were 9th and 10th graders "hungry for information but boxed out of meetings with school counselors focused on helping seniors." The foundation ultimately retired the AI CoPilot, recognizing that technology cannot replace social capital. But the pattern persists nationwide: wealthy districts hire more counselors. Under-resourced districts deploy chatbots. The children who need human connection most are the ones getting a machine.</p></div>
+
+<h3 class="sub" style="color:var(--gold)">THE EVIDENCE — What the Research Shows</h3>
+
+<div class="bw" style="grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0">
+<div class="sb" style="border-top:2px solid var(--red)"><p class="bn" style="color:var(--red)">53/75</p><p style="font-size:0.75rem;color:var(--txm)">Research papers in a 2025 systematic review identified algorithmic bias as a primary ethical risk in AI education systems (Nature, Humanities & Social Sciences Communications)</p></div>
+<div class="sb" style="border-top:2px solid var(--gold)"><p class="bn" style="color:var(--gold)">27 States</p><p style="font-size:0.75rem;color:var(--txm)">Have established AI guidelines for schools as of 2025. Colorado AI Act takes effect February 2026 with mandatory bias audits for educational AI.</p></div>
+<div class="sb" style="border-top:2px solid var(--cyan)"><p class="bn" style="color:var(--cyan)">UNCRC</p><p style="font-size:0.75rem;color:var(--txm)">UN Convention on the Rights of the Child: Articles 2, 28, 29 guarantee non-discrimination in education. AI systems violate these when bias goes unaudited.</p></div>
+<div class="sb" style="border-top:2px solid var(--pur)"><p class="bn" style="color:var(--pur)">Zero</p><p style="font-size:0.75rem;color:var(--txm)">Number of federal laws in the US specifically requiring bias audits for AI used in K-12 education. Children have no legal protection from algorithmic discrimination in school.</p></div>
+</div>
+
+<h3 class="sub" style="color:var(--cyan)">THE OVERHAUL — Purpose-Driven Agentic Education System</h3>
+
+<p>The current AI systems deployed in schools were not built for children. They were built for engagement metrics, subscription revenue, and data collection. The Digital Reckoning demands a complete overhaul — replacing the current profit-driven educational AI with a <strong style="color:var(--cyan)">Purpose-Driven Agentic Education System (PDAES)</strong> built on the following principles:</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 1 — EQUAL REGISTER FOR EVERY CHILD.</strong> The AI must speak to every child with the same level of academic rigor, regardless of name, zip code, school, device, heritage identity, or any proxy variable. No child receives simplified language. No child receives urban slang when they ask an academic question. No child receives a condescending tone. Every child receives the highest-quality educational response the system is capable of producing. The register is set at the TOP, not the bottom. If the child needs additional scaffolding, the AI provides it — but never by dumbing down. Always by building up.</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 2 — NO PROXY VARIABLES IN EDUCATIONAL AI.</strong> Zip code, school name, device type, browsing history, household income proxies, parental education level, and heritage identity must be STRIPPED from any data used to determine what content a child sees, what level they are placed at, or what opportunities they are shown. The only inputs the educational AI may use are: the child's demonstrated knowledge (via assessment), the child's stated goals, and the child's explicit requests for help. Everything else is a proxy variable and must be censored.</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 3 — CULTURAL COMPETENCE, NOT CULTURAL PROFILING.</strong> The AI must be trained to recognize and respect linguistic diversity — including AAVE, Spanglish, code-switching, and dialectal variation — without penalizing it. An essay written in AAVE that demonstrates critical thinking, logical argumentation, and original insight must be scored on those merits, not downgraded for non-standard grammar. Cultural competence means understanding that intelligence has many languages. Cultural profiling means assuming that a child who speaks differently thinks less. The AI must do the former and never the latter.</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 4 — NEURODIVERGENT-INCLUSIVE DESIGN.</strong> Every educational AI must be designed from the ground up to accommodate ADHD, autism spectrum, dyslexia, and other neurodivergent learning patterns. This means: multiple response formats (text, audio, visual), adjustable pacing, no penalization of atypical engagement patterns, and recognition that looking away from a screen is not disengagement — it may be deep processing. Neurodivergent children are not edge cases. They are approximately 15-20% of the student population. An AI that cannot serve them is not fit for deployment.</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 5 — NO CEILING ON ANY CHILD.</strong> The AI must never use demographic data to set an expectation ceiling. Every child must have access to the most advanced content the system offers. If a child from a Title I school demonstrates readiness for AP-level material, the AI must provide it — instantly, without gatekeeping, without flagging, without questioning whether the child "really" belongs at that level. The algorithm does not get to decide who is gifted. The child decides, by reaching for it. The AI's job is to be there when they do.</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 6 — MANDATORY BIAS AUDIT EVERY SEMESTER.</strong> Every AI system deployed in a school district must undergo a bias audit at least twice per year, testing whether outcomes differ by heritage identity, skin tone, neurodivergence, gender, disability, or socioeconomic proxy. Results must be published and shared with parents. If disparate impact is found, the system must be immediately suspended until remediation is complete. No child should be a test subject for an unaudited algorithm.</p>
+
+<p><strong style="color:var(--cyan)">PRINCIPLE 7 — PARENTAL TRANSPARENCY AND OVERRIDE.</strong> Parents must have full visibility into what the AI is showing their child, how it is adapting its behavior, and what data it is collecting. Parents must have the right to override any AI recommendation, placement, or assessment. The algorithm does not replace the parent. It serves the parent. And the parent serves the child.</p>
+
+<div style="background:linear-gradient(135deg,rgba(156,39,176,0.12),rgba(0,229,255,0.08));border:2px solid var(--pur);border-radius:10px;padding:1.5rem;margin:1.5rem 0;text-align:center">
+<p style="font-size:1.2rem;font-weight:900;color:#fff;margin:0">EVERY CHILD DESERVES THE BEST VERSION<br>OF THE ALGORITHM — NOT THE VERSION<br><span style="color:var(--red)">THE ALGORITHM THINKS THEY DESERVE.</span></p>
+<p style="font-size:0.85rem;color:var(--pur);margin:0.75rem 0 0;font-weight:600">The children cannot audit the algorithm. The children cannot file complaints. The children cannot opt out. That is why the adults must act. The Purpose-Driven Agentic Education System is not optional. It is owed.</p>
+</div>
+
+</div>
+</div>
+<div class="dv"></div>
+
 <div style="background:#0a0a0e;border:1px solid rgba(255,46,76,0.2);border-radius:8px;padding:1.5rem;margin:0 auto;max-width:900px;margin-bottom:2rem">
 <h4 style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:0.75rem">Intellectual Property Notice</h4>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7">© 2026 Edward C. Callender IV. All Rights Reserved.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">Masterisk_Asterisk™</strong> is a trademark of Edward C. Callender IV. First use in commerce: 2026.</p>
-<p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">THE DIGITAL RECKONING©</strong> is a copyrighted work of Edward C. Callender IV. All text, interactive elements, data visualizations, the Heritage Categorization Schema, the Equitable Preferences Doctrine, the Bias Simulator, the Network Bias Emulator, the Whistleblower Bounty Framework, the Penalty Reallocation Framework, the RAS Communicado/Incommunicado Framework, the Masterisk Reset Protocol (Deep Scrub), and all original analysis contained herein are the intellectual property of the author.</p>
+<p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">THE DIGITAL RECKONING©</strong> is a copyrighted work of Edward C. Callender IV. All text, interactive elements, data visualizations, the Heritage Categorization Schema, the Equitable Preferences Doctrine, the Bias Simulator, the Network Bias Emulator, the Whistleblower Bounty Framework, the Penalty Reallocation Framework, the RAS Communicado/Incommunicado Framework, the Masterisk Reset Protocol (Deep Scrub/GODMODE), the Purpose-Driven Agentic Education System (PDAES), the Masterisk Reset Protocol (Deep Scrub), and all original analysis contained herein are the intellectual property of the author.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--txt)">KR0M3D1A®</strong> and <strong style="color:var(--txt)">Digital ARC®</strong> are registered marks of KR0M3D1A Digital ARC / CreationsLab224.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--cyan)">Permitted Use:</strong> Civil rights organizations, government enforcement agencies, academic researchers, journalists, and legal practitioners may reference, cite, and distribute this work for non-commercial purposes of algorithmic justice advocacy, enforcement, education, and litigation — with attribution to Edward C. Callender IV / KR0M3D1A Digital ARC.</p>
 <p style="font-size:0.78rem;color:#aaa;line-height:1.7"><strong style="color:var(--red)">Prohibited Use:</strong> No corporation, entity, or individual named as a respondent in this manifesto may reproduce, distribute, modify, or create derivative works from this document without express written permission from the author. Any unauthorized commercial use, reproduction, or distribution is subject to legal action under U.S. Copyright Law (17 U.S.C. § 101 et seq.) and applicable international copyright treaties (Berne Convention, WIPO Copyright Treaty).</p>
@@ -2840,7 +2986,27 @@ var score=Math.max(0,100-flags.length*12);var vc=score>80?'var(--grn)':score>50?
 vrd.style.background=score>80?'rgba(0,230,118,0.06)':score>50?'rgba(255,179,71,0.06)':'rgba(255,46,76,0.06)';vrd.style.border='1px solid '+vc;
 vrd.innerHTML='<div style="font-size:1.4rem;font-weight:900;color:'+vc+'">'+score+'/100</div><div style="font-size:0.65rem;color:'+vc+'">'+(score>80?'EQUITABLE':score>50?'MODERATE CONTAMINATION':'DEEP SCRUB REQUIRED')+'</div>';
 }
-function clearScrub(){var i=document.getElementById('scrubInput'),o=document.getElementById('scrubOutput');if(i)i.value='';if(o)o.style.display='none';}
+function clearScrub(){var i=document.getElementById('scrubInput'),o=document.getElementById('scrubOutput'),c=document.getElementById('scrubContext'),fi=document.getElementById('fileInfo');if(i)i.value='';if(o)o.style.display='none';if(c)c.value='';if(fi)fi.style.display='none';}
+function handleFileUpload(input){
+var file=input.files[0];if(!file)return;
+var info=document.getElementById('fileInfo');
+var reader=new FileReader();
+reader.onload=function(e){var inp=document.getElementById('scrubInput');if(inp)inp.value=e.target.result;if(info){info.style.display='block';info.innerHTML='Loaded: '+file.name+' ('+Math.round(file.size/1024)+' KB)';}};
+reader.onerror=function(){if(info){info.style.display='block';info.style.color='var(--red)';info.innerHTML='Error. Paste text directly.';}};
+if(file.name.match(/\.(txt|csv|json|html|xml|rtf)$/i))reader.readAsText(file);
+else if(info){info.style.display='block';info.style.color='var(--gold)';info.innerHTML='For .pdf/.docx, paste text content directly.';}
+}
+(function(){var dz=document.getElementById('dropZone');if(dz){dz.ondragover=function(e){e.preventDefault();dz.style.borderColor='var(--cyan)';};dz.ondragleave=function(){dz.style.borderColor='#333';};dz.ondrop=function(e){e.preventDefault();dz.style.borderColor='#333';var fi=document.getElementById('scrubFile');if(fi&&e.dataTransfer.files.length){fi.files=e.dataTransfer.files;handleFileUpload(fi);}};}})();
+function exportScrub(){
+var t=document.getElementById('scrubType'),i=document.getElementById('scrubInput'),c=document.getElementById('scrubContext'),h=document.getElementById('scrubHeritage'),f=document.getElementById('scrubFitz'),n=document.getElementById('scrubNeuro'),s=document.getElementById('scrubSector'),nm=document.getElementById('scrubName'),em=document.getElementById('scrubEmail'),v=document.getElementById('scrubVerdict'),fl=document.getElementById('scrubFlags');
+var r='MASTERISK DEEP SCRUB REPORT\n'+new Date().toISOString()+'\nType: '+(t?t.value:'')+'\n';
+if(nm&&nm.value)r+='Name: '+nm.value+'\n';if(em&&em.value)r+='Email: '+em.value+'\n';
+if(h&&h.value)r+='Heritage: '+h.value+'\n';if(f&&f.value)r+='Fitzpatrick: '+f.value+'\n';
+if(n&&n.value)r+='Neuro: '+n.value+'\n';if(s&&s.value)r+='Sector: '+s.value+'\n';
+r+='\n--- DOCUMENT ---\n'+(i?i.value:'')+'\n--- CONTEXT ---\n'+(c?c.value:'')+'\n--- FLAGS ---\n'+(fl?fl.innerText:'')+'\n--- VERDICT ---\n'+(v?v.innerText:'')+'\nhttps://masterisk-asterisk-eight.vercel.app\n';
+try{navigator.clipboard.writeText(r).then(function(){alert('Report copied to clipboard!');});}catch(e){var b=new Blob([r],{type:'text/plain'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='DEEP_SCRUB_REPORT.txt';a.click();}
+}
+
 
 </script>
 </body>
