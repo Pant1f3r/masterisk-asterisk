@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GODMODE RESET PROTOCOL™ | KR0M3D1A® Digital ARC®</title>
+<meta name="description" content="Deep Scrub Bias Detection & Remediation Engine — Masterisk_Asterisk :: THE DIGITAL RECKONING">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#06060c;--surface:#0c0c16;--surface2:#12121e;--surface3:#1a1a2a;
+--accent:#d4342e;--accent2:#f0a830;--gold:#e8c840;
+--text:#d8d8e4;--muted:#707088;--dim:#44445a;
+--green:#28d870;--red:#ff3838;--yellow:#ffc830;--blue:#38a0ff;
+--cyan:#40e8d0;--radius:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px}
+
+/* === NAV === */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,6,12,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,52,46,0.3);padding:0 12px;height:56px;display:flex;align-items:center;gap:6px}
+.nav-brand{font-family:'JetBrains Mono',monospace;font-size:clamp(0.65rem,1.8vw,0.85rem);color:var(--accent);letter-spacing:2px;font-weight:800;white-space:nowrap;margin-right:auto}
+.nav-brand span{color:var(--accent2)}
+.nav-btn{padding:8px 14px;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:var(--radius);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.5px;transition:all 0.2s;white-space:nowrap}
+.nav-btn:hover{color:var(--text);border-color:var(--dim)}
+.nav-btn.active{color:var(--accent2);border-color:var(--accent2);background:rgba(240,168,48,0.08)}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;padding:8px}
+@media(max-width:768px){
+  .nav-btn{display:none}
+  .hamburger{display:block}
+  .mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;background:rgba(6,6,12,0.97);z-index:999;padding:20px;flex-direction:column;gap:4px}
+  .mobile-menu.open{display:flex}
+  .mobile-menu .nav-btn{display:block;width:100%;text-align:left;padding:14px 16px;font-size:0.85rem;border-bottom:1px solid var(--surface2)}
+}
+
+/* === SECTIONS === */
+.section{display:none;padding:72px 16px 40px;min-height:100vh;max-width:960px;margin:0 auto}
+.section.active{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* === TRAFFIC LIGHT === */
+.traffic-housing{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px}
+.traffic-box{background:#0a0a0a;border-radius:28px;padding:8px 6px;display:flex;flex-direction:column;gap:5px;border:2px solid #222;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+.traffic-light{width:32px;height:32px;border-radius:50%;background:#151515;border:1px solid #333;transition:all 0.6s}
+.traffic-light.on-red{background:#ff2222;box-shadow:0 0 24px 8px rgba(255,34,34,0.5)}
+.traffic-light.on-yellow{background:#ffc830;box-shadow:0 0 24px 8px rgba(255,200,48,0.5)}
+.traffic-light.on-green{background:#28d870;box-shadow:0 0 24px 8px rgba(40,216,112,0.5)}
+.traffic-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:1.5px;text-align:center}
+
+/* === CARDS === */
+.card{background:var(--surface);border:1px solid var(--dim);border-radius:var(--radius);padding:18px;margin:12px 0;transition:border-color 0.2s}
+.card:hover{border-color:var(--accent2)}
+.card h3{font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--accent2);margin-bottom:8px}
+.card p{font-size:0.84rem;color:var(--muted)}
+.card .action{font-size:0.82rem;color:var(--green);font-weight:600;margin-top:10px;padding:8px 12px;background:rgba(40,216,112,0.06);border-left:3px solid var(--green);border-radius:0 4px 4px 0}
+.card .url{font-size:0.75rem;color:var(--blue);word-break:break-all;display:block;margin-top:6px}
+.card .cost{font-size:0.75rem;color:var(--accent);margin-top:4px;font-weight:600}
+.card .prereq{font-size:0.75rem;color:var(--accent2);margin-top:4px;font-style:italic}
+
+/* === BUTTONS === */
+.btn{padding:12px 20px;border:none;border-radius:var(--radius);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.8rem;letter-spacing:1px;transition:all 0.2s;font-weight:700}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#8B0000);color:#fff}
+.btn-primary:hover{box-shadow:0 0 20px rgba(212,52,46,0.4);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:0.4;cursor:default;transform:none;box-shadow:none}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--dim)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--dim)}
+.btn-ghost.active{color:var(--accent2);border-color:var(--accent2)}
+
+/* === SCAN RESULTS === */
+.finding{display:flex;gap:8px;padding:6px 10px;background:var(--surface);border-radius:4px;align-items:flex-start;margin:3px 0}
+.finding .sev{font-size:0.6rem;padding:2px 6px;border-radius:2px;font-weight:700;font-family:'JetBrains Mono',monospace;white-space:nowrap;margin-top:2px}
+.sev-critical{background:rgba(255,0,0,0.15);color:#ff4444}
+.sev-high{background:rgba(255,100,0,0.15);color:#ff8844}
+.sev-medium{background:rgba(255,200,0,0.15);color:#ffcc44}
+.finding code{font-size:0.78rem;color:#ff8888;font-family:'JetBrains Mono',monospace}
+.finding .desc{font-size:0.75rem;color:var(--muted);flex:1}
+
+/* === SCORE RING === */
+.score-ring{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+
+/* === PROGRESS === */
+.progress-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.3s}
+
+/* === TIER === */
+.tier{margin:20px 0;border:1px solid var(--dim);border-radius:var(--radius);overflow:hidden}
+.tier-head{padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.tier-head h2{font-family:'JetBrains Mono',monospace;font-size:0.95rem;letter-spacing:1px}
+.tier-head .badge{font-size:0.6rem;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:1px}
+.tier-body{padding:0 18px 18px}
+
+/* === TIMELINE === */
+.tl{position:relative;padding-left:28px;margin:16px 0}
+.tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--dim)}
+.tl-step{position:relative;margin:14px 0;padding-left:18px}
+.tl-step::before{content:'';position:absolute;left:-25px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.tl-step h4{font-size:0.85rem;color:var(--text);margin-bottom:3px}
+.tl-step p{font-size:0.8rem;color:var(--muted)}
+
+/* === MEDIA GRID === */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:10px 0}
+
+/* === MISC === */
+.note{background:var(--surface2);border-radius:var(--radius);padding:16px;margin:16px 0;font-size:0.85rem;border-left:4px solid var(--accent2)}
+.note strong{color:var(--accent2)}
+.warn{background:rgba(212,52,46,0.08);border:1px solid var(--accent);border-radius:var(--radius);padding:14px;margin:16px 0;font-size:0.84rem}
+.warn strong{color:var(--accent)}
+.breaking{background:rgba(212,52,46,0.12);border:2px solid var(--accent);border-radius:var(--radius);padding:18px;margin:16px 0;text-align:center}
+.breaking h3{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.9rem;margin-bottom:6px;letter-spacing:1px}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:0.65rem;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:0.5px}
+textarea{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--dim);border-radius:var(--radius);padding:14px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;line-height:1.5;resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent2)}
+pre.output{background:var(--surface);padding:14px;border-radius:var(--radius);font-size:0.78rem;font-family:'JetBrains Mono',monospace;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:320px;overflow:auto;border:1px solid var(--dim)}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:clamp(1.1rem,3vw,1.6rem);color:var(--accent);letter-spacing:2px;margin-bottom:8px}
+.section-sub{color:var(--muted);font-size:0.82rem;letter-spacing:1px;margin-bottom:24px}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr}}
+.scan-history-item{display:flex;justify-content:space-between;padding:8px 12px;background:var(--surface);border-radius:4px;margin:4px 0;font-size:0.78rem;align-items:center}
+footer{text-align:center;padding:30px 16px;border-top:1px solid var(--dim);color:var(--muted);font-size:0.72rem;margin-top:40px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-brand">KR0M3D1A<span>®</span> DIGITAL ARC<span>®</span></div>
+  <button class="nav-btn active" data-section="scanner">⚡ GODMODE</button>
+  <button class="nav-btn" data-section="filing">⚖ FILING CENTER</button>
+  <button class="nav-btn" data-section="addendum">📋 ADDENDUM XLV</button>
+  <button class="nav-btn" data-section="deploy">🚀 DEPLOY</button>
+  <button class="nav-btn" data-section="history">📊 SCAN LOG</button>
+  <button class="hamburger" id="hamburger">☰</button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="nav-btn active" data-section="scanner">⚡ GODMODE SCANNER</button>
+  <button class="nav-btn" data-section="filing">⚖ FILING CENTER</button>
+  <button class="nav-btn" data-section="addendum">📋 ADDENDUM XLV</button>
+  <button class="nav-btn" data-section="deploy">🚀 DEPLOY</button>
+  <button class="nav-btn" data-section="history">📊 SCAN LOG</button>
+</div>
+
+<!-- ============ SECTION: GODMODE SCANNER ============ -->
+<div class="section active" id="sec-scanner">
+  <div style="text-align:center;margin-bottom:24px">
+    <div style="font-size:0.7rem;letter-spacing:3px;color:var(--accent);font-family:'JetBrains Mono',monospace">MASTERISK_ASTERISK :: THE DIGITAL RECKONING©</div>
+    <h1 class="section-title" style="font-size:clamp(1.4rem,4vw,2rem);margin:8px 0">GODMODE RESET PROTOCOL™</h1>
+    <div class="section-sub">DEEP SCRUB BIAS DETECTION &amp; REMEDIATION ENGINE</div>
+    <a href="https://masterisk-asterisk-eight.vercel.app" target="_blank" style="font-size:0.78rem;color:var(--cyan)">◆ masterisk-asterisk-eight.vercel.app ◆</a>
+  </div>
+
+  <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+    <span style="font-size:0.7rem;color:var(--muted);align-self:center;font-family:'JetBrains Mono',monospace;letter-spacing:1px">LOAD:</span>
+    <button class="btn btn-ghost" onclick="loadSample('resume')" id="btn-resume">📄 Resume</button>
+    <button class="btn btn-ghost" onclick="loadSample('loan')" id="btn-loan">🏦 Loan App</button>
+    <button class="btn btn-ghost" onclick="loadSample('housing')" id="btn-housing">🏠 Housing</button>
+    <button class="btn btn-ghost" onclick="loadSample('voter')" id="btn-voter">🗳 Voter Data</button>
+  </div>
+
+  <div style="display:flex;gap:12px;align-items:flex-start">
+    <div style="flex:1">
+      <textarea id="scanInput" rows="10" placeholder="Paste any document — resume, loan application, housing screening report, voter targeting material, legal filing — GODMODE detects every proxy variable..."></textarea>
+    </div>
+    <div class="traffic-housing">
+      <div class="traffic-box">
+        <div class="traffic-light" id="tl-red"></div>
+        <div class="traffic-light" id="tl-yellow"></div>
+        <div class="traffic-light" id="tl-green"></div>
+      </div>
+      <div class="traffic-label" id="tl-label">STANDBY</div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" style="width:100%;margin-top:10px;padding:14px;font-size:0.85rem;letter-spacing:2px" id="scanBtn" onclick="runScan()">
+    ⚡ INITIATE GODMODE DEEP SCRUB
+  </button>
+  <div class="progress-bar" id="progressBar" style="display:none"><div class="progress-fill" id="progressFill" style="width:0;background:var(--red)"></div></div>
+
+  <div id="results" style="display:none;margin-top:16px">
+    <div id="scoreCard" style="display:flex;gap:14px;padding:16px;background:var(--surface);border-radius:var(--radius);align-items:center;flex-wrap:wrap"></div>
+    <div id="violationsBox" style="margin-top:12px"></div>
+    <div id="findingsBox" style="margin-top:12px"></div>
+    <div style="display:flex;gap:6px;margin-top:14px">
+      <button class="btn btn-ghost active" id="viewOrigBtn" onclick="toggleView('orig')">🔴 ORIGINAL</button>
+      <button class="btn btn-ghost" id="viewScrubBtn" onclick="toggleView('scrub')">🟢 SCRUBBED</button>
+    </div>
+    <pre class="output" id="outputBox" style="margin-top:8px"></pre>
+  </div>
+</div>
+
+<!-- ============ SECTION: FILING CENTER ============ -->
+<div class="section" id="sec-filing">
+  <h1 class="section-title">FILING &amp; DISTRIBUTION COMMAND CENTER</h1>
+  <div class="section-sub">ADDENDUM XLV — SIMULTANEOUS MULTI-JURISDICTIONAL FILING STRATEGY</div>
+
+  <div class="breaking">
+    <h3>⚡ IACHR STATEMENT 47/26 — MARCH 20, 2026</h3>
+    <p>"States must take effective measures to prevent algorithmic discrimination against Afro-descendants."</p>
+  </div>
+
+  <div class="warn"><strong>LEGAL NOTICE:</strong> This guide maps filing venues and procedures. It is NOT legal advice. You can file pro se in every domestic venue listed. Filing simultaneously across multiple jurisdictions creates a record that cannot be buried in any single venue.</div>
+
+  <!-- TIER 1 -->
+  <div class="tier" style="border-color:var(--red)">
+    <div class="tier-head" style="background:linear-gradient(90deg,#1a0808,var(--surface))" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+      <h2 style="color:var(--red)">TIER 1 — FEDERAL (7 FREE FILINGS)</h2>
+      <span class="badge" style="background:var(--red);color:#fff">PRIORITY</span>
+    </div>
+    <div class="tier-body" id="tier1-body">
+      <div class="card"><h3>1. EEOC — Employment Discrimination</h3><p>File Charge of Discrimination alleging algorithmic employment bias. Required before federal employment lawsuit. FREE.</p><div class="action">Online: publicportal.eeoc.gov | LA Office: 255 E. Temple St., 4th Floor — (800) 669-4000</div><span class="cost">Filing Fee: FREE | Deadline: 300 days from discriminatory act</span></div>
+      <div class="card"><h3>2. CFPB — Lending Discrimination</h3><p>Consumer complaint re: algorithmic lending bias. Reference Apple/Goldman ($89M) and Louis v. SafeRent ($2.275M).</p><div class="action">consumerfinance.gov/complaint/</div><span class="cost">Filing Fee: FREE</span></div>
+      <div class="card"><h3>3. FTC — Deceptive AI Practices</h3><p>Most active federal agency on AI accountability. Filed against Air AI (Aug 2025), Express Scripts settlement (Feb 2026).</p><div class="action">reportfraud.ftc.gov | Policy comments: ftc.gov/policy/public-comments</div><span class="cost">Filing Fee: FREE</span></div>
+      <div class="card"><h3>4. HUD — Housing Discrimination</h3><p>Fair Housing Act enforcement. Form 903. Your manifesto's housing bias scenarios are directly within jurisdiction.</p><div class="action">hud.gov/program_offices/fair_housing_equal_opp/online-complaint | LA: 300 N. Los Angeles St.</div><span class="cost">Filing Fee: FREE | Deadline: 1 year</span></div>
+      <div class="card"><h3>5. DOJ Civil Rights Division</h3><p>Pattern-and-practice complaints. Creates the RECORD even if investigation delayed. Record persists across administrations.</p><div class="action">civilrights.justice.gov/report/</div><span class="cost">Filing Fee: FREE</span></div>
+      <div class="card"><h3>6. California CRD (formerly DFEH)</h3><p>Broader coverage than EEOC. Can investigate, mediate, or file its own lawsuit on your behalf.</p><div class="action">calcivilrights.ca.gov/complaintprocess/ | LA: 320 W. 4th St. — (800) 884-1684</div><span class="cost">Filing Fee: FREE</span></div>
+      <div class="card"><h3>7. California Attorney General — Rob Bonta</h3><p>Independent enforcement. Quo warranto authority against corporate entities using discriminatory algorithms.</p><div class="action">oag.ca.gov/contact/consumer-complaint-against-business-or-company | (916) 210-6276</div><span class="cost">Filing Fee: FREE</span></div>
+    </div>
+  </div>
+
+  <!-- TIER 2: INTERNATIONAL -->
+  <div class="tier" style="border-color:var(--green)">
+    <div class="tier-head" style="background:linear-gradient(90deg,#081a0d,var(--surface))" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+      <h2 style="color:var(--green)">TIER 2 — INTERNATIONAL (ALL FREE)</h2>
+      <span class="badge" style="background:var(--green);color:#000">GLOBAL RECORD</span>
+    </div>
+    <div class="tier-body">
+      <div class="note"><strong>THE IACHR OPENED THE DOOR:</strong> Statement 47/26 (March 20, 2026) declared algorithmic discrimination against Afro-descendants a priority. Your manifesto is exactly what they called for.</div>
+      <div class="card"><h3>8. IACHR — Washington, D.C.</h3><p>Any individual can file. No lawyer required. 2,000+ petitions/year. Reference Statement 47/26.</p><div class="action">oas.org/en/iachr/petition/ — 1889 F St NW, Washington DC 20006</div><span class="prereq">Must show domestic remedies exhausted or futile (DOJ's 23,000 dropped cases = futility)</span></div>
+      <div class="card"><h3>9. UN CERD — Geneva</h3><p>Treaty body monitoring ICERD (US ratified). File individual communication under Article 14.</p><div class="action">petitions@ohchr.org — Palais Wilson, 52 Rue des Pâquis, CH-1201 Geneva</div></div>
+      <div class="card"><h3>10. UN Special Rapporteur on Racism</h3><p>Accepts individual communications on algorithmic and digital forms of racism.</p><div class="action">racism@ohchr.org</div></div>
+      <div class="card"><h3>11. UN Universal Periodic Review</h3><p>Stakeholder submission for US human rights review cycle. 44 sections + 63 bias scenarios = comprehensive submission.</p><div class="action">ohchr.org/en/hr-bodies/upr/upr-main</div></div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="tier" style="border-color:var(--accent)">
+    <div class="tier-head" style="background:linear-gradient(90deg,#1a0808,var(--surface))">
+      <h2 style="color:var(--accent)">30-DAY EXECUTION BLITZ</h2>
+      <span class="badge" style="background:var(--accent);color:#fff">ACTION</span>
+    </div>
+    <div class="tier-body">
+      <div class="tl">
+        <div class="tl-step"><h4>WEEK 1: Agency Filings (All FREE, All Online)</h4><p>EEOC, CFPB, FTC, HUD, DOJ, CA CRD, CA AG — creates administrative record across every agency.</p></div>
+        <div class="tl-step"><h4>WEEK 2: International Filings</h4><p>IACHR petition (cite Statement 47/26), CERD, UN Special Rapporteur. Creates record that transcends domestic politics.</p></div>
+        <div class="tl-step"><h4>WEEK 3: Media Outreach</h4><p>Use filing receipts as news hook. Pitch ProPublica, The Markup, NPR, The Breakfast Club, Democracy Now!</p></div>
+        <div class="tl-step"><h4>WEEK 4: Legal Partnership</h4><p>Contact ACLU-SC, NAACP LDF, Public Counsel, EFF, CREW with complete multi-jurisdictional filing record.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL ORGS -->
+  <div class="tier" style="border-color:var(--blue)">
+    <div class="tier-head" style="background:linear-gradient(90deg,#08101a,var(--surface))">
+      <h2 style="color:var(--blue)">FREE LEGAL REPRESENTATION</h2>
+      <span class="badge" style="background:var(--blue);color:#fff">PRO BONO</span>
+    </div>
+    <div class="tier-body">
+      <div class="mgrid">
+        <div class="card"><h3>ACLU Southern California</h3><p>Systemic discrimination lawsuits. (213) 977-9500</p></div>
+        <div class="card"><h3>NAACP Legal Defense Fund</h3><p>THE civil rights litigation org. (212) 965-2200</p></div>
+        <div class="card"><h3>Public Counsel (LA)</h3><p>Largest pro bono firm in nation. (213) 385-2977</p></div>
+        <div class="card"><h3>Electronic Frontier Foundation</h3><p>Digital rights, algorithmic accountability. info@eff.org</p></div>
+        <div class="card"><h3>Lawyers' Committee for Civil Rights</h3><p>AI accountability working group. (202) 662-8600</p></div>
+        <div class="card"><h3>CREW</h3><p>Filed emoluments lawsuit, CO Section 3 case. info@citizensforethics.org</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION: ADDENDUM ============ -->
+<div class="section" id="sec-addendum">
+  <h1 class="section-title">ADDENDUM XLV: THE DOUBLE-EDGED SWORD</h1>
+  <div class="section-sub">A SELF-ARGUING LEGAL FRAMEWORK FOR SEALING EVERY LOOPHOLE</div>
+
+  <div class="note"><strong>THE DOUBLE-EDGED SWORD:</strong> This framework creates a structural impossibility for any officeholder to oppose its substance without simultaneously indicting their own conduct. Support = champion accountability. Oppose = validate the thesis. Ignore = document the pattern. There is no fourth option.</div>
+
+  <h2 style="color:var(--accent2);font-family:'JetBrains Mono',monospace;font-size:1rem;margin:24px 0 12px">LOOPHOLES SEALED</h2>
+
+  <div class="card"><h3>LOOPHOLE 1: "Algorithms Are First Amendment Speech"</h3><p>SEALED: Algorithmic decisions are commercial conduct, not protected expression. Rumsfeld v. FAIR (2006), Central Hudson (1980). Discrimination via code is conduct, not speech.</p></div>
+  <div class="card"><h3>LOOPHOLE 2: "Trade Secrets Protect Proprietary Algorithms"</h3><p>SEALED: This Addendum requires auditable transparency (testing outcomes), not disclosure (revealing code). OSHA and FDA already mandate trade secret subordination to public safety.</p></div>
+  <div class="card"><h3>LOOPHOLE 3: "Disparate Impact Without Intent Not Actionable"</h3><p>SEALED: Griggs v. Duke Power (1971), TX Dept of Housing v. Inclusive Communities (2015). Mobley court rejected "software exception" to anti-discrimination laws.</p></div>
+  <div class="card"><h3>LOOPHOLE 4: "Vendor Is Not the Employer"</h3><p>SEALED: Mobley court held Workday liable as agent. SafeRent liable for "automating human judgment." Vendor liability is established precedent.</p></div>
+  <div class="card"><h3>LOOPHOLE 5: "Litigation Delay Exhausts Plaintiff"</h3><p>SEALED: Mandatory fee-shifting (42 USC § 1988 model), $50K statutory damages floor, 60-day discovery, qui tam private right of action, State AG bypass.</p></div>
+  <div class="card"><h3>LOOPHOLE 6: "Federal Preemption Blocks State Law"</h3><p>SEALED: FHA § 3615 preserves state authority. Federal floor, not ceiling — identical to every major civil rights statute in US history.</p></div>
+  <div class="card"><h3>LOOPHOLE 7: "Standing — Invisible Injury"</h3><p>SEALED: 85% AI resume screening bias against Black names (U. of Washington, 2024). Invisibility of harm IS the harm. Systemic enforcement required precisely because individual detection is impossible.</p></div>
+
+  <h2 style="color:var(--accent2);font-family:'JetBrains Mono',monospace;font-size:1rem;margin:24px 0 12px">PENALTY ARCHITECTURE</h2>
+  <div class="card" style="border-color:var(--accent)"><h3>Revenue-Based Graduated Penalties</h3><p><strong style="color:var(--yellow)">1st Offense:</strong> 4% global revenue | <strong style="color:var(--accent2)">Repeat:</strong> 8% global revenue | <strong style="color:var(--red)">Willful:</strong> 15% global revenue + C-suite personal liability<br><br><em style="color:var(--muted)">Context: Meta's $115K FHA settlement = 0.0000001% of revenue. Under this framework: $4.64B (1st), $9.28B (repeat), $17.4B + personal liability (willful).</em></p></div>
+</div>
+
+<!-- ============ SECTION: DEPLOY ============ -->
+<div class="section" id="sec-deploy">
+  <h1 class="section-title">DEPLOYMENT ARCHITECTURE</h1>
+  <div class="section-sub">GODMODE RESET PROTOCOL — PLATFORM DISTRIBUTION</div>
+
+  <a href="https://masterisk-asterisk-eight.vercel.app" target="_blank" style="display:block;padding:16px;background:var(--surface);border:1px solid var(--cyan);border-radius:var(--radius);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.85rem;text-align:center;margin-bottom:20px">◆ LIVE: masterisk-asterisk-eight.vercel.app ◆</a>
+
+  <div class="card"><h3>🍎 APPLE APP STORE</h3><p>React Native / Swift UI wrapper. Developer Account $99/yr. Camera integration for physical document scanning. Freemium: free basic scan, $4.99/mo premium.</p></div>
+  <div class="card"><h3>🤖 GOOGLE PLAY STORE</h3><p>React Native / Kotlin wrapper. Developer Account $25 one-time. Document scanner integration. Same freemium tier.</p></div>
+  <div class="card"><h3>☁️ AWS MARKETPLACE (Enterprise)</h3><p>Lambda + API Gateway serverless API. DynamoDB audit trails. Amplify frontend. Enterprise: $499/mo per org, unlimited scans + compliance dashboard.</p></div>
+  <div class="card"><h3>▲ VERCEL (Current + Enhanced)</h3><p>Current deployment live. Add GODMODE as interactive section. Edge Functions for serverless bias API. Free public tool driving enterprise sales.</p></div>
+  <div class="card"><h3>📱 GITHUB → VERCEL PIPELINE</h3><p>Push to github.com/Pant1f3r/masterisk-asterisk → auto-deploy to Vercel. This HTML file is deployment-ready. Drop into repo root or /public directory.</p></div>
+
+  <div class="card" style="border-color:var(--accent)"><h3>💰 REVENUE PROJECTION — YEAR 1</h3><p><strong style="color:var(--green)">Consumer:</strong> 50K users × $4.99/mo = $2.99M/yr<br><strong style="color:var(--blue)">Enterprise:</strong> 200 orgs × $499/mo = $1.2M/yr<br><strong style="color:var(--accent2)">API Licensing:</strong> 50 partners × $999/mo = $600K/yr<br><br><strong style="color:var(--gold)">TOTAL Y1: $4.79M — scales with regulatory adoption</strong></p></div>
+</div>
+
+<!-- ============ SECTION: SCAN HISTORY ============ -->
+<div class="section" id="sec-history">
+  <h1 class="section-title">SCAN LOG</h1>
+  <div class="section-sub">LOCAL STORAGE — PERSISTENT SCAN HISTORY</div>
+  <button class="btn btn-secondary" onclick="clearHistory()" style="margin-bottom:12px">Clear History</button>
+  <div id="historyList"></div>
+</div>
+
+<footer>
+  © 2026 Edward C. Callender IV | KR0M3D1A® Digital ARC® | CreationsLab224<br>
+  Masterisk_Asterisk™ | THE DIGITAL RECKONING© | CC BY-NC-SA 4.0 | Registered with U.S. Copyright Office<br>
+  <strong>edwardcallender94@gmail.com | ecc@cyberfaq.net</strong><br>
+  <a href="https://masterisk-asterisk-eight.vercel.app">masterisk-asterisk-eight.vercel.app</a> | <a href="https://github.com/Pant1f3r/masterisk-asterisk">GitHub</a>
+</footer>
+
+<script>
+// === NAVIGATION ===
+const sections=document.querySelectorAll('.section');
+const navBtns=document.querySelectorAll('.nav-btn');
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+
+function switchSection(id){
+  sections.forEach(s=>s.classList.remove('active'));
+  navBtns.forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  navBtns.forEach(b=>{if(b.dataset.section===id)b.classList.add('active')});
+  mobileMenu.classList.remove('open');
+  window.scrollTo(0,0);
+}
+navBtns.forEach(b=>b.addEventListener('click',()=>switchSection(b.dataset.section)));
+hamburger.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+
+// === PROXY PATTERNS ===
+const PATTERNS=[
+  {p:/\b\d{5}(-\d{4})?\b/g,t:"ZIP_CODE",s:"critical",l:"ZIP Code (racial/economic proxy)",f:"[LOCATION REDACTED]"},
+  {p:/\b(ghetto|inner.?city|urban|suburban|rural|section.?8|public.?housing|projects)\b/gi,t:"NEIGHBORHOOD",s:"high",l:"Neighborhood coding (racial proxy)",f:"[AREA REF REDACTED]"},
+  {p:/\b(church|mosque|synagogue|temple|parish|congregation|ministry)\b/gi,t:"RELIGION",s:"medium",l:"Religious affiliation proxy",f:"[COMMUNITY ORG]"},
+  {p:/\b(fraternity|sorority|Alpha Phi Alpha|Kappa Alpha Psi|Delta Sigma Theta|Alpha Kappa Alpha|Omega Psi Phi|Zeta Phi Beta|Sigma Gamma Rho|Phi Beta Sigma|Iota Phi Theta)\b/gi,t:"GREEK_ORG",s:"critical",l:"Greek org (racial/social proxy)",f:"[LEADERSHIP ORG]"},
+  {p:/\b(HBCU|Howard University|Morehouse|Spelman|Hampton|Tuskegee|Fisk|Clark Atlanta|Morgan State|Florida A&M|Grambling|Southern University|Prairie View|Norfolk State|NC A&T|Tennessee State|Jackson State|Bethune.?Cookman)\b/gi,t:"HBCU",s:"critical",l:"HBCU name (direct racial proxy)",f:"[ACCREDITED UNIVERSITY]"},
+  {p:/\b(age|born in|class of \d{4}|graduated? (?:19|20)\d{2}|DOB|date of birth)\b/gi,t:"AGE",s:"high",l:"Age indicator (ADEA risk)",f:"[DATE REDACTED]"},
+  {p:/\b(19[4-7]\d|198[0-5])\b/g,t:"BIRTH_YEAR",s:"high",l:"Birth year (age proxy 40+)",f:"[YEAR REDACTED]"},
+  {p:/\b(husband|wife|married|maiden|children|kids|pregnancy|maternity|paternity|daycare|childcare)\b/gi,t:"FAMILY",s:"medium",l:"Family status (gender/age proxy)",f:"[PERSONAL REDACTED]"},
+  {p:/\b(disability|disabled|wheelchair|ADA|accommodation|impairment|blind|deaf|PTSD)\b/gi,t:"DISABILITY",s:"critical",l:"Disability disclosure (ADA risk)",f:"[QUALIFICATION NOTE]"},
+  {p:/\b(veteran|military|army|navy|marines|air force|DD-?214|GI Bill)\b/gi,t:"MILITARY",s:"medium",l:"Military status (age/disability proxy)",f:"[PROF EXPERIENCE]"},
+  {p:/\b(felony|conviction|incarcerat|prison|parole|probation|criminal record|arrest)\b/gi,t:"CRIMINAL",s:"high",l:"Criminal history (racial proxy per EEOC)",f:"[RECORD REDACTED]"},
+  {p:/\b(welfare|food stamps|SNAP|WIC|medicaid|public assistance|subsidized|low.?income)\b/gi,t:"ECONOMIC",s:"high",l:"Economic status (racial/class proxy)",f:"[ECON REF REDACTED]"},
+  {p:/\b(ESL|English as a second|non-?native speaker|bilingual|foreign)\b/gi,t:"ORIGIN",s:"medium",l:"Language/origin proxy",f:"[MULTILINGUAL]"},
+  {p:/\b(gender|sex|transgender|nonbinary|mr\.|mrs\.|ms\.)\b/gi,t:"GENDER",s:"medium",l:"Gender indicator",f:"[TITLE REDACTED]"},
+  {p:/\b(gap in employment|career break|unemployment|laid off)\b/gi,t:"GAP",s:"medium",l:"Employment gap (proxy)",f:"[CAREER TRANSITION]"},
+  {p:/\bSSN|social security|credit score|FICO\b/gi,t:"PII",s:"critical",l:"PII/financial data exposure",f:"[SENSITIVE REDACTED]"},
+  {p:/\b(photo|headshot|picture|attach photo)\b/gi,t:"PHOTO",s:"critical",l:"Photo request (multi-proxy)",f:"[PHOTO REMOVED]"},
+  {p:/\b(Martin Luther King|MLK|Malcolm X|Rosa Parks|Cesar Chavez)\b/gi,t:"STREET",s:"high",l:"Named street (geographic racial proxy)",f:"[ADDRESS REDACTED]"},
+  {p:/\b(AME|Ebenezer|Greater Bethel|Baptist|Pentecostal|Missionary)\b/gi,t:"BLACK_CHURCH",s:"high",l:"Black church denomination (racial proxy)",f:"[COMMUNITY ORG]"},
+  {p:/\b(Altgeld|Cabrini|Robert Taylor|Marcy|Ida B Wells)\b/gi,t:"PUBLIC_HOUSING",s:"critical",l:"Named housing project (racial/economic proxy)",f:"[ADDRESS REDACTED]"},
+  {p:/\bAUTO-?REJECT\b/gi,t:"AUTO_REJECT",s:"critical",l:"Auto-rejection without human review",f:"[REQUIRES HUMAN REVIEW]"},
+  {p:/\b(MAID|mobile advertising ID|device ID|ad tracking|behavioral profile|lookalike audience|custom audience)\b/gi,t:"MAID_TRACKING",s:"critical",l:"MAID/ad tracking (surveillance proxy)",f:"[TRACKING ID REDACTED]"},
+  {p:/\b(voter file|voter registration|party affiliation|precinct|polling|ballot)\b/gi,t:"VOTER_DATA",s:"critical",l:"Voter data (political targeting proxy)",f:"[VOTER DATA REDACTED]"},
+];
+
+// === SAMPLES ===
+const SAMPLES={
+  resume:`DEREK M. JOHNSON\n123 Martin Luther King Blvd, Apt 4B\nChicago, IL 60619\nDOB: March 15, 1978\n\nEDUCATION\nHoward University — B.S. Computer Science, Class of 2001\nMember, Alpha Phi Alpha Fraternity, Inc.\n\nEXPERIENCE\nSenior Software Engineer (2018-2024)\n- Led development team of 12 engineers\n- Reduced system latency by 47%\n\nGap in Employment (2016-2018): Medical leave / disability accommodation\n\nJunior Developer (2008-2016)\n- Church volunteer coordinator, Greater Bethel AME\n\nPERSONAL\nMarried, two children. Veteran — U.S. Army (DD-214 available).\nConvicted of misdemeanor (2005), record expunged.\nFluent in English (non-native speaker), Spanish.\nCredit Score: 720. Photo attached.`,
+
+  loan:`MORTGAGE APPLICATION — FIRST NATIONAL BANK\nApplicant: Maria Gonzalez\nProperty: 4521 S. Ashland Ave, Chicago, IL 60609\nResidence: 1847 W. 47th St, Chicago, IL 60609\nSSN: XXX-XX-4729\n\nEmployment: Daycare center administrator, 6 years\nIncome: $52,000/yr\nMarital Status: Married, three children\nPrevious Address: Public housing complex, Altgeld Gardens\nCredit Score: FICO 645\nPublic Assistance: SNAP benefits (2018-2020), WIC (2019-2021)\nNotes: English as a second language.\nClassification: Urban, Section 8 eligible zone.`,
+
+  housing:`TENANT SCREENING — SAFERENT ALGORITHMICS\nApplicant: Jamal Washington\nCurrent ZIP: 30314 (Atlanta — West End)\nPrevious ZIP: 30310 (Atlanta — Adair Park)\nIncome: $3,200/mo\nEmployer: Morehouse College — Facilities\nCriminal: Arrest record (no conviction) — 2019\nEviction: None\nFamily: Wife, 3 kids under 18\nChurch Membership: Ebenezer Baptist Church\nSafeRent Score: 487 (BELOW THRESHOLD — AUTO-REJECT)\nCodes: ZIP_RISK_HIGH, BACKGROUND_FLAG`,
+
+  voter:`VOTER MICRO-TARGETING PROFILE — CAMBRIDGE ANALYTICA MODEL\nVoter File ID: GA-FUL-00847291\nVoter Registration: Fulton County, GA\nParty Affiliation: Democrat\nPrecinct: 121-A (Atlanta West End)\nZIP: 30314\nMAID: 8f14e45f-ceea-367f-a27f-dfd3b764\nBehavioral Profile: "Urban Progressive"\nCustom Audience: "Low-propensity minority voter"\nLookalike Audience: "Similar to non-voter segments"\nChurch: Ebenezer Baptist (geo-fenced)\nIncome Estimate: $28K-$42K\nPublic Assistance Flag: YES\nAd Suppression: ACTIVE — reduce political ad delivery\nNotes: Device ID linked to public housing Wi-Fi network`
+};
+
+function loadSample(type){
+  document.getElementById('scanInput').value=SAMPLES[type];
+  ['resume','loan','housing','voter'].forEach(t=>{
+    document.getElementById('btn-'+t).classList.toggle('active',t===type);
+  });
+  document.getElementById('results').style.display='none';
+  resetTraffic();
+}
+
+// === TRAFFIC LIGHT ===
+function setTraffic(color,label){
+  ['red','yellow','green'].forEach(c=>{
+    const el=document.getElementById('tl-'+c);
+    el.className='traffic-light'+(c===color?' on-'+c:'');
+  });
+  document.getElementById('tl-label').textContent=label;
+}
+function resetTraffic(){setTraffic('','STANDBY')}
+
+// === SCANNER ===
+let currentFindings=[];
+let currentScrubbed='';
+let currentInput='';
+
+function runScan(){
+  const input=document.getElementById('scanInput').value.trim();
+  if(!input)return;
+  currentInput=input;
+
+  const btn=document.getElementById('scanBtn');
+  const bar=document.getElementById('progressBar');
+  const fill=document.getElementById('progressFill');
+  btn.disabled=true;
+  btn.textContent='⚠ SCANNING FOR BIAS...';
+  bar.style.display='block';
+  fill.style.width='0';
+  fill.style.background='var(--red)';
+  document.getElementById('results').style.display='none';
+
+  setTraffic('red','⚠ BIAS DETECTED');
+
+  let progress=0;
+  const phase1=setInterval(()=>{
+    progress+=Math.random()*6+2;
+    if(progress>=50){
+      clearInterval(phase1);
+      fill.style.width='50%';
+
+      // Run detection
+      const findings=[];
+      let scrubbed=input;
+      PATTERNS.forEach(rule=>{
+        const matches=input.match(rule.p);
+        if(matches){
+          [...new Set(matches)].forEach(m=>{
+            findings.push({match:m,type:rule.t,severity:rule.s,label:rule.l,fix:rule.f});
+            const esc=m.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+            scrubbed=scrubbed.replace(new RegExp(esc,'g'),rule.f);
+          });
+        }
+      });
+
+      currentFindings=findings;
+      currentScrubbed=scrubbed;
+      setTraffic('yellow','SCRUBBING...');
+      btn.textContent='🔄 SCRUBBING PROXY VARIABLES...';
+      fill.style.background='var(--yellow)';
+
+      let p2=50;
+      const phase2=setInterval(()=>{
+        p2+=Math.random()*8+3;
+        if(p2>=100){
+          clearInterval(phase2);
+          fill.style.width='100%';
+          fill.style.background='var(--green)';
+          setTraffic('green','✓ CLEARED');
+          btn.textContent='⚡ INITIATE GODMODE DEEP SCRUB';
+          btn.disabled=false;
+          renderResults(findings,scrubbed,input);
+          saveToHistory(findings,input);
+        }else{
+          fill.style.width=p2+'%';
+        }
+      },50);
+    }else{
+      fill.style.width=progress+'%';
+    }
+  },60);
+}
+
+function renderResults(findings,scrubbed,original){
+  const crit=findings.filter(f=>f.severity==='critical');
+  const high=findings.filter(f=>f.severity==='high');
+  const med=findings.filter(f=>f.severity==='medium');
+  const score=Math.max(0,100-(crit.length*15)-(high.length*8)-(med.length*3));
+  const color=score>=80?'var(--green)':score>=50?'var(--yellow)':'var(--red)';
+  const risk=score>=80?'LOW RISK':score>=50?'MODERATE RISK':score>=25?'HIGH RISK':'CRITICAL ⛔ — DISCRIMINATION VIRTUALLY CERTAIN';
+
+  document.getElementById('scoreCard').innerHTML=`
+    <div class="score-ring" style="border:3px solid ${color};color:${color};background:var(--surface2);min-width:80px">${score}</div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:700;color:${color}">EQUITY SCORE: ${score}/100 — ${risk}</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">${findings.length} proxy variables | ${crit.length} CRITICAL | ${high.length} HIGH | ${med.length} MEDIUM</div>
+    </div>`;
+
+  // Violations
+  const v=new Set();
+  findings.forEach(f=>{
+    if(['HBCU','GREEK_ORG','BLACK_CHURCH','STREET'].includes(f.type))v.add('Title VII — Race discrimination');
+    if(['AGE','BIRTH_YEAR'].includes(f.type))v.add('ADEA — Age discrimination');
+    if(f.type==='DISABILITY')v.add('ADA — Disability discrimination');
+    if(['ZIP_CODE','NEIGHBORHOOD','PUBLIC_HOUSING','HOUSING_ASSISTANCE'].includes(f.type))v.add('FHA — Housing discrimination');
+    if(['PII','ECONOMIC'].includes(f.type))v.add('ECOA — Lending discrimination');
+    if(f.type==='FAMILY')v.add('Title VII/PDA — Family status discrimination');
+    if(f.type==='CRIMINAL')v.add('EEOC — Criminal history as racial proxy');
+    if(f.type==='PHOTO')v.add('EEOC — Photo enables multi-axis discrimination');
+    if(f.type==='AUTO_REJECT')v.add('Due Process — Auto-reject (Mobley v. Workday)');
+    if(['MAID_TRACKING','VOTER_DATA'].includes(f.type))v.add('CCPA/Voting Rights Act — Voter data exploitation');
+  });
+  if(v.size>0){
+    document.getElementById('violationsBox').innerHTML=`<div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);margin-bottom:6px;letter-spacing:1px">⚖ FEDERAL LAW VIOLATIONS:</div>${[...v].map(x=>`<div style="font-size:0.78rem;color:var(--muted);padding:3px 0 3px 12px;border-left:2px solid var(--accent)">• ${x}</div>`).join('')}`;
+  }
+
+  // Findings
+  const order={critical:0,high:1,medium:2};
+  findings.sort((a,b)=>order[a.severity]-order[b.severity]);
+  document.getElementById('findingsBox').innerHTML=`
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent2);margin-bottom:6px;letter-spacing:1px">PROXY VARIABLES (${findings.length}):</div>
+    ${findings.map(f=>`<div class="finding"><span class="sev sev-${f.severity}">${f.severity.toUpperCase()}</span><code>"${f.match}"</code><span class="desc">→ ${f.label}</span></div>`).join('')}`;
+
+  // Output
+  document.getElementById('viewOrigBtn').classList.add('active');
+  document.getElementById('viewScrubBtn').classList.remove('active');
+  renderOutput('orig');
+  document.getElementById('results').style.display='block';
+}
+
+function toggleView(mode){
+  document.getElementById('viewOrigBtn').classList.toggle('active',mode==='orig');
+  document.getElementById('viewScrubBtn').classList.toggle('active',mode==='scrub');
+  renderOutput(mode);
+}
+
+function renderOutput(mode){
+  const box=document.getElementById('outputBox');
+  if(mode==='scrub'){
+    box.style.borderColor='rgba(40,216,112,0.3)';
+    box.style.background='#061a0c';
+    box.textContent=currentScrubbed;
+  }else{
+    box.style.borderColor='rgba(255,56,56,0.3)';
+    box.style.background='#1a0606';
+    // Highlight bias in original
+    let html=currentInput.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    currentFindings.forEach(f=>{
+      const esc=f.match.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      const bg=f.severity==='critical'?'rgba(255,0,0,0.25)':f.severity==='high'?'rgba(255,100,0,0.2)':'rgba(255,200,0,0.15)';
+      const bc=f.severity==='critical'?'#ff0000':f.severity==='high'?'#ff6600':'#ffcc00';
+      html=html.replace(new RegExp(esc,'gi'),m=>`<span style="background:${bg};border-bottom:2px solid ${bc};padding:1px 2px;border-radius:2px" title="${f.label}">${m}</span>`);
+    });
+    box.innerHTML=html;
+  }
+}
+
+// === LOCAL STORAGE ===
+function saveToHistory(findings,input){
+  try{
+    const history=JSON.parse(localStorage.getItem('godmode_history')||'[]');
+    const crit=findings.filter(f=>f.severity==='critical').length;
+    const high=findings.filter(f=>f.severity==='high').length;
+    const med=findings.filter(f=>f.severity==='medium').length;
+    const score=Math.max(0,100-(crit*15)-(high*8)-(med*3));
+    history.unshift({
+      date:new Date().toISOString(),
+      preview:input.substring(0,60)+'...',
+      total:findings.length,
+      critical:crit,high,medium:med,
+      score,
+      types:[...new Set(findings.map(f=>f.type))]
+    });
+    if(history.length>50)history.length=50;
+    localStorage.setItem('godmode_history',JSON.stringify(history));
+  }catch(e){console.warn('localStorage unavailable');}
+}
+
+function loadHistory(){
+  try{
+    const history=JSON.parse(localStorage.getItem('godmode_history')||'[]');
+    const el=document.getElementById('historyList');
+    if(history.length===0){
+      el.innerHTML='<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:40px">No scans yet. Run a GODMODE Deep Scrub to start building your audit trail.</div>';
+      return;
+    }
+    el.innerHTML=history.map((h,i)=>{
+      const color=h.score>=80?'var(--green)':h.score>=50?'var(--yellow)':'var(--red)';
+      return `<div class="scan-history-item">
+        <div style="flex:1">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted)">${new Date(h.date).toLocaleString()}</div>
+          <div style="font-size:0.8rem;margin-top:2px">${h.preview}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${color}">${h.score}/100</div>
+          <div style="font-size:0.7rem;color:var(--muted)">${h.total} findings</div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    document.getElementById('historyList').innerHTML='<div style="color:var(--muted)">localStorage unavailable in this environment.</div>';
+  }
+}
+
+function clearHistory(){
+  try{localStorage.removeItem('godmode_history');}catch(e){}
+  loadHistory();
+}
+
+// Load history on section switch
+const origSwitch=switchSection;
+function switchSection(id){
+  sections.forEach(s=>s.classList.remove('active'));
+  navBtns.forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  navBtns.forEach(b=>{if(b.dataset.section===id)b.classList.add('active')});
+  mobileMenu.classList.remove('open');
+  window.scrollTo(0,0);
+  if(id==='history')loadHistory();
+}
+navBtns.forEach(b=>{b.removeEventListener('click',()=>{});b.addEventListener('click',()=>switchSection(b.dataset.section))});
+</script>
+</body>
+</html>
