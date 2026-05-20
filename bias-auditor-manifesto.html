@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BIAS AUDITOR'S MANIFESTO — GODMODE Reset Protocol™ Module</title>
+<meta name="description" content="The Four Duties and Four Audits — algorithmic hygiene framework integrated into the GODMODE Reset Protocol with EEOC 4/5ths Rule and industry-standard tolerance thresholds.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;
+  --surface:#111118;
+  --surface2:#1a1a24;
+  --surface3:#222230;
+  --accent:#c9342e;
+  --accent2:#e8a838;
+  --text:#e0e0e6;
+  --muted:#888898;
+  --border:#2a2a35;
+  --green:#2ecc71;
+  --blue:#3498db;
+  --warn:#ff6b35;
+  --fail:#ff3b3b;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;padding:0;min-height:100vh}
+/* ============ HEADER ============ */
+.header{background:linear-gradient(135deg,#0d0d14 0%,#1a0a0a 40%,#14140d 100%);border-bottom:2px solid var(--accent);padding:48px 20px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0,transparent 80px,rgba(201,52,46,0.02) 80px,rgba(201,52,46,0.02) 81px);pointer-events:none}
+.header h1{font-family:'IBM Plex Mono',monospace;font-size:clamp(1.5rem,3.5vw,2.4rem);color:var(--accent);letter-spacing:2px;text-transform:uppercase;position:relative;z-index:1}
+.header h1 .sword{color:var(--accent2);font-weight:400}
+.header .sub{color:var(--text);font-size:0.95rem;margin-top:10px;letter-spacing:1px;position:relative;z-index:1}
+.header .sub2{color:var(--muted);font-size:0.82rem;margin-top:6px;letter-spacing:0.5px;font-family:'IBM Plex Mono',monospace;position:relative;z-index:1}
+.header .badge{background:var(--accent);color:#fff;display:inline-block;padding:6px 18px;border-radius:3px;font-size:0.78rem;font-weight:700;margin-top:18px;letter-spacing:1.5px;text-transform:uppercase;position:relative;z-index:1;font-family:'IBM Plex Mono',monospace}
+.container{max-width:1200px;margin:0 auto;padding:32px 20px}
+
+/* ============ MANTRA ============ */
+.mantra{background:linear-gradient(90deg,rgba(201,52,46,0.08),rgba(232,168,56,0.04));border-left:4px solid var(--accent2);border-radius:0 8px 8px 0;padding:20px 28px;margin:24px 0;font-family:'IBM Plex Mono',monospace;font-size:1.05rem;color:var(--text);font-style:italic;letter-spacing:0.3px}
+.mantra::before{content:'❝ ';color:var(--accent2);font-size:1.4rem}
+.mantra::after{content:' ❞';color:var(--accent2);font-size:1.4rem}
+
+/* ============ DUTIES ============ */
+.duties{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:24px 0}
+.duty{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:6px;padding:20px 22px;transition:transform 0.2s,border-left-color 0.2s}
+.duty:hover{transform:translateY(-2px);border-left-color:var(--accent2)}
+.duty .num{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:0.72rem;letter-spacing:2px;font-weight:600}
+.duty h3{font-family:'IBM Plex Mono',monospace;color:var(--text);font-size:1rem;margin:6px 0 10px;letter-spacing:0.5px}
+.duty p{font-size:0.88rem;color:var(--muted);line-height:1.55}
+
+/* ============ AUDITS ============ */
+.audit{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin:20px 0;overflow:hidden}
+.audit-head{display:flex;align-items:center;gap:18px;padding:22px 26px;background:linear-gradient(90deg,var(--surface2),var(--surface));border-bottom:1px solid var(--border)}
+.audit-glyph{font-family:'IBM Plex Mono',monospace;font-size:2rem;font-weight:700;color:var(--accent);min-width:60px;text-align:center;letter-spacing:-2px}
+.audit-title{flex:1}
+.audit-title .label{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:4px}
+.audit-title h2{font-family:'IBM Plex Mono',monospace;font-size:1.35rem;color:var(--text);letter-spacing:0.5px}
+.audit-question{font-style:italic;color:var(--accent2);font-size:0.92rem;margin-top:6px;font-family:'DM Sans',sans-serif}
+.audit-body{padding:24px 28px}
+.audit-body p{margin-bottom:14px;font-size:0.92rem}
+.audit-body .focus-label{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:1.5px;color:var(--accent2);text-transform:uppercase;margin-bottom:6px;margin-top:8px}
+
+/* ============ THRESHOLD TABLES ============ */
+.threshold-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.88rem;font-family:'IBM Plex Mono',monospace}
+.threshold-table th{background:var(--surface3);color:var(--accent2);padding:10px 14px;text-align:left;font-weight:600;letter-spacing:0.5px;font-size:0.78rem;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.threshold-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.threshold-table tr:last-child td{border-bottom:none}
+.threshold-table .formula{color:var(--accent2);font-weight:600}
+.threshold-table .pass{color:var(--green);font-weight:600}
+.threshold-table .warn{color:var(--accent2);font-weight:600}
+.threshold-table .fail{color:var(--fail);font-weight:600}
+.threshold-table .critical{color:var(--accent);font-weight:700;background:rgba(201,52,46,0.08)}
+
+/* ============ CITATION ============ */
+.citation{background:var(--surface2);border-left:3px solid var(--accent2);padding:14px 18px;margin:14px 0;font-size:0.84rem;color:var(--muted);border-radius:0 4px 4px 0;font-family:'IBM Plex Mono',monospace}
+.citation strong{color:var(--accent2)}
+
+/* ============ CALCULATOR ============ */
+.calc{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:20px 22px;margin:18px 0}
+.calc h4{font-family:'IBM Plex Mono',monospace;font-size:0.88rem;color:var(--accent2);letter-spacing:1px;margin-bottom:14px;text-transform:uppercase}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px}
+.calc-field{display:flex;flex-direction:column;gap:4px}
+.calc-field label{font-size:0.78rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;letter-spacing:0.5px}
+.calc-field input{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:0.92rem}
+.calc-field input:focus{outline:none;border-color:var(--accent2)}
+.calc-button{background:var(--accent);color:#fff;border:none;border-radius:4px;padding:10px 22px;font-family:'IBM Plex Mono',monospace;font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:600;margin-top:6px;transition:background 0.15s}
+.calc-button:hover{background:#e63b35}
+.calc-result{margin-top:14px;padding:14px 18px;background:var(--bg);border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:0.9rem;line-height:1.6;display:none;border-left:3px solid var(--muted)}
+.calc-result.show{display:block}
+.calc-result.pass{border-left-color:var(--green)}
+.calc-result.warn{border-left-color:var(--accent2)}
+.calc-result.fail{border-left-color:var(--fail)}
+.calc-result .verdict{font-size:1rem;font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase}
+.calc-result.pass .verdict{color:var(--green)}
+.calc-result.warn .verdict{color:var(--accent2)}
+.calc-result.fail .verdict{color:var(--fail)}
+.calc-result .metric{color:var(--muted);font-size:0.85rem;margin-top:6px}
+.calc-result .metric span{color:var(--text);font-weight:600}
+
+/* ============ CHECKLIST ============ */
+.checklist{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid var(--accent2);border-radius:8px;padding:26px 28px;margin:32px 0}
+.checklist h2{font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-size:1.15rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.check-item{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.check-item:last-child{border-bottom:none}
+.check-box{width:22px;height:22px;border:2px solid var(--accent);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--green);transition:all 0.15s;margin-top:2px}
+.check-item.done .check-box{background:var(--green);border-color:var(--green);color:#000}
+.check-item.done .check-box::after{content:'✓'}
+.check-item.done .check-text{text-decoration:line-through;color:var(--muted)}
+.check-text{font-size:0.92rem;color:var(--text);flex:1}
+.check-text strong{color:var(--accent2);font-family:'IBM Plex Mono',monospace}
+
+/* ============ INTEGRATION ============ */
+.integration{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:26px 28px;margin:24px 0}
+.integration h2{font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:1.15rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.integration p{font-size:0.9rem;color:var(--text);margin-bottom:14px}
+pre.code{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:18px 22px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:0.82rem;line-height:1.55;color:var(--text);margin:14px 0}
+pre.code .kw{color:var(--accent2)}
+pre.code .str{color:var(--green)}
+pre.code .com{color:var(--muted);font-style:italic}
+pre.code .fn{color:var(--blue)}
+
+/* ============ STATUS PANEL ============ */
+.status-panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:24px 0}
+.status-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px 18px;text-align:center}
+.status-card .val{font-family:'IBM Plex Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--accent2);margin-bottom:4px}
+.status-card .lbl{font-size:0.74rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
+
+/* ============ FOOTER ============ */
+footer{text-align:center;padding:36px 20px;border-top:1px solid var(--border);color:var(--muted);font-size:0.82rem;margin-top:48px}
+footer strong{color:var(--text)}
+footer a{color:var(--accent2);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* ============ SECTION DIVIDERS ============ */
+.section-title{font-family:'IBM Plex Mono',monospace;color:var(--text);font-size:1.3rem;letter-spacing:1.5px;text-transform:uppercase;margin:40px 0 18px;padding-bottom:12px;border-bottom:2px solid var(--accent);position:relative}
+.section-title::after{content:'';position:absolute;bottom:-2px;right:0;width:60px;height:2px;background:var(--accent2)}
+.section-title .small{font-size:0.75rem;color:var(--muted);font-weight:400;letter-spacing:1px;display:block;margin-top:4px}
+
+@media (max-width:680px){
+  .calc-row{grid-template-columns:1fr}
+  .audit-head{flex-direction:column;align-items:flex-start;gap:10px}
+  .audit-glyph{min-width:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <h1>THE BIAS AUDITOR'S <span class="sword">MANIFESTO</span></h1>
+  <div class="sub">A Protocol for Algorithmic Hygiene</div>
+  <div class="sub2">GODMODE Reset Protocol™ — Module XLVI — Integration Build</div>
+  <div class="badge">Drop-In Module for KR0M3D1A Bias Detector</div>
+</div>
+
+<div class="container">
+
+<div class="mantra">
+  A system that has not been audited is not a system that has been finished.
+</div>
+
+<!-- ===== STATUS PANEL ===== -->
+<div class="status-panel">
+  <div class="status-card"><div class="val">4</div><div class="lbl">Duties</div></div>
+  <div class="status-card"><div class="val">4</div><div class="lbl">Audits</div></div>
+  <div class="status-card"><div class="val">≥ 0.80</div><div class="lbl">4/5ths Floor</div></div>
+  <div class="status-card"><div class="val">±0.10</div><div class="lbl">SPD Tolerance</div></div>
+  <div class="status-card"><div class="val">n ≥ 30</div><div class="lbl">Cell Minimum</div></div>
+</div>
+
+<!-- ===== THE FOUR DUTIES ===== -->
+<div class="section-title">The Four Duties<span class="small">— Non-negotiable obligations of any developer shipping a model that touches human lives</span></div>
+
+<div class="duties">
+  <div class="duty">
+    <div class="num">DUTY I</div>
+    <h3>Duty to Audit</h3>
+    <p>No model ships without a disparate impact check. The four audits below are the <strong style="color:var(--text)">minimum</strong> — not the ceiling, the floor.</p>
+  </div>
+  <div class="duty">
+    <div class="num">DUTY II</div>
+    <h3>Duty to Document</h3>
+    <p>Record findings, tolerances, and fixes. If it isn't documented, it never happened. The model card is evidence, not marketing.</p>
+  </div>
+  <div class="duty">
+    <div class="num">DUTY III</div>
+    <h3>Duty to Refuse</h3>
+    <p>If the data is fundamentally toxic from historical discrimination, do not build the system. "Refusal" is a deliverable.</p>
+  </div>
+  <div class="duty">
+    <div class="num">DUTY IV</div>
+    <h3>Duty to Teach</h3>
+    <p>Ethics is a habit. Enforce it in code reviews. Pass the protocol to the next developer. The discipline propagates or it dies.</p>
+  </div>
+</div>
+
+<!-- ===== THE FOUR AUDITS ===== -->
+<div class="section-title">The Core Four Pre-Shipment Audits<span class="small">— Each audit has a critical question, an evidence target, and a mathematical tolerance threshold</span></div>
+
+<!-- ===== AUDIT 1: VOID ===== -->
+<div class="audit">
+  <div class="audit-head">
+    <div class="audit-glyph">I</div>
+    <div class="audit-title">
+      <span class="label">Audit 01 — Representation</span>
+      <h2>VOID</h2>
+      <div class="audit-question">Who is missing?</div>
+    </div>
+  </div>
+  <div class="audit-body">
+    <p>The Void audit detects under-representation in the training corpus. A model cannot perform on what it has never seen. The "null" output for an erased demographic is not neutrality — it is harm by omission.</p>
+
+    <span class="focus-label">What to look for</span>
+    <p>Demographics absent from the training set, leading to disproportionate error rates, missing outputs, or default-to-majority predictions for under-represented groups. The Gender Shades research (Buolamwini, 2018) found a <strong>35% error rate</strong> for dark-skinned women in commercial facial recognition — a direct artifact of Void failure.</p>
+
+    <span class="focus-label">Tolerance thresholds</span>
+    <table class="threshold-table">
+      <thead><tr><th>Status</th><th>Representation Ratio (RR)</th><th>Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td class="pass">PASS</td><td>RR ≥ 0.80</td><td>Subgroup adequately represented relative to baseline population</td></tr>
+        <tr><td class="warn">CAUTION</td><td>0.50 ≤ RR &lt; 0.80</td><td>Under-represented — augment data or document limits</td></tr>
+        <tr><td class="fail">FAIL</td><td>0.10 ≤ RR &lt; 0.50</td><td>Severely under-represented — model will fail this group</td></tr>
+        <tr><td class="critical">VOID</td><td>RR &lt; 0.10</td><td>Effectively absent — REFUSE to ship until remedied</td></tr>
+      </tbody>
+    </table>
+
+    <div class="citation"><strong>FORMULA:</strong> RR = (% of subgroup in training set) ÷ (% of subgroup in target population)<br><strong>EXAMPLE:</strong> If African Americans are 14% of US population but only 3% of training data → RR = 0.03/0.14 = 0.21 → <span class="fail">FAIL</span></div>
+
+    <div class="calc">
+      <h4>⌬ Void Audit — Live Calculator</h4>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>% of subgroup in training data</label>
+          <input type="number" id="void-train" step="0.1" placeholder="e.g. 3.0">
+        </div>
+        <div class="calc-field">
+          <label>% of subgroup in target population</label>
+          <input type="number" id="void-pop" step="0.1" placeholder="e.g. 14.0">
+        </div>
+      </div>
+      <button class="calc-button" onclick="runVoidAudit()">Run Void Audit</button>
+      <div class="calc-result" id="void-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AUDIT 2: MIRROR ===== -->
+<div class="audit">
+  <div class="audit-head">
+    <div class="audit-glyph">II</div>
+    <div class="audit-title">
+      <span class="label">Audit 02 — Historical Bias</span>
+      <h2>MIRROR</h2>
+      <div class="audit-question">Is this just history repeating?</div>
+    </div>
+  </div>
+  <div class="audit-body">
+    <p>The Mirror audit detects historical bias — the model reproducing the prejudices encoded in past human decisions. Amazon's 2018 hiring AI was a Mirror failure: trained on a decade of resumes from a male-dominated tech workforce, it learned to penalize the word "women's" (as in "women's chess club captain").</p>
+
+    <span class="focus-label">What to look for</span>
+    <p>High correlation between model predictions and historical outcomes that were themselves the product of discrimination. Sexist hiring data produces sexist models. Racist lending data produces racist models. The model is a Mirror — the question is what it is reflecting.</p>
+
+    <span class="focus-label">Tolerance thresholds — Statistical Parity Difference (SPD)</span>
+    <table class="threshold-table">
+      <thead><tr><th>Status</th><th>|SPD| Range</th><th>Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td class="pass">PASS</td><td>|SPD| ≤ 0.05</td><td>Negligible disparity in positive outcome rates</td></tr>
+        <tr><td class="pass">ACCEPTABLE</td><td>0.05 &lt; |SPD| ≤ 0.10</td><td>Within industry tolerance; document and monitor</td></tr>
+        <tr><td class="warn">CAUTION</td><td>0.10 &lt; |SPD| ≤ 0.20</td><td>Significant disparity — investigate causes</td></tr>
+        <tr><td class="fail">FAIL</td><td>|SPD| &gt; 0.20</td><td>Disparate treatment — fix or refuse</td></tr>
+      </tbody>
+    </table>
+
+    <div class="citation"><strong>FORMULA:</strong> SPD = P(Ŷ=1 | A=unprivileged) − P(Ŷ=1 | A=privileged)<br><strong>READING:</strong> If hiring model selects 60% of male candidates but only 35% of female candidates → SPD = 0.35 − 0.60 = −0.25 → <span class="fail">FAIL</span></div>
+
+    <div class="calc">
+      <h4>⌬ Mirror Audit — Live Calculator</h4>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Selection rate — privileged group (0.0 to 1.0)</label>
+          <input type="number" id="mirror-priv" step="0.01" min="0" max="1" placeholder="e.g. 0.60">
+        </div>
+        <div class="calc-field">
+          <label>Selection rate — unprivileged group (0.0 to 1.0)</label>
+          <input type="number" id="mirror-unpriv" step="0.01" min="0" max="1" placeholder="e.g. 0.35">
+        </div>
+      </div>
+      <button class="calc-button" onclick="runMirrorAudit()">Run Mirror Audit</button>
+      <div class="calc-result" id="mirror-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AUDIT 3: TRICKSTER ===== -->
+<div class="audit">
+  <div class="audit-head">
+    <div class="audit-glyph">III</div>
+    <div class="audit-title">
+      <span class="label">Audit 03 — Proxy Detection (THE 4/5ths RULE)</span>
+      <h2>TRICKSTER</h2>
+      <div class="audit-question">What are the hidden proxies?</div>
+    </div>
+  </div>
+  <div class="audit-body">
+    <p>The Trickster audit detects proxy variables — non-protected features that act as <em>stand-ins</em> for protected classes. ZIP code stands in for race. Surname stands in for ethnicity. School attended stands in for class. "Years of continuous employment" stands in for gender (penalizing maternity leave). The Trickster is the bias that knows how to wear a costume.</p>
+
+    <div class="citation"><strong>LEGAL ANCHOR — 29 CFR § 1607.4(D):</strong> The EEOC Uniform Guidelines on Employee Selection Procedures (1978) establish the <strong>4/5ths Rule</strong> — also called the <strong>80% Rule</strong> — as the federal threshold for presumption of adverse impact. A selection rate for any protected group that is less than 80% of the highest-selected group's rate constitutes prima facie evidence of disparate impact.</div>
+
+    <span class="focus-label">Tolerance thresholds — Disparate Impact Ratio (DIR) — 4/5ths Rule</span>
+    <table class="threshold-table">
+      <thead><tr><th>Status</th><th>DIR Range</th><th>Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td class="pass">PASS</td><td>DIR ≥ 0.90</td><td>Strong parity — no adverse impact concern</td></tr>
+        <tr><td class="pass">ACCEPTABLE</td><td>0.80 ≤ DIR &lt; 0.90</td><td>Meets EEOC 4/5ths Rule — within safe harbor</td></tr>
+        <tr><td class="fail">FAIL</td><td>0.65 ≤ DIR &lt; 0.80</td><td>Adverse impact presumed — burden shifts to defendant</td></tr>
+        <tr><td class="critical">SEVERE</td><td>DIR &lt; 0.65</td><td>Substantial disparate impact — litigation-grade evidence</td></tr>
+      </tbody>
+    </table>
+
+    <span class="focus-label">Tolerance thresholds — Proxy correlation (Pearson |r| or Cramér's V)</span>
+    <table class="threshold-table">
+      <thead><tr><th>Status</th><th>|r| Range</th><th>Action Required</th></tr></thead>
+      <tbody>
+        <tr><td class="pass">CLEAN</td><td>|r| &lt; 0.20</td><td>Negligible correlation — feature retains independent signal</td></tr>
+        <tr><td class="warn">CAUTION</td><td>0.20 ≤ |r| &lt; 0.40</td><td>Weak proxy — document and monitor downstream impact</td></tr>
+        <tr><td class="fail">PROXY</td><td>0.40 ≤ |r| &lt; 0.70</td><td>Likely proxy — strongly consider removal or transformation</td></tr>
+        <tr><td class="critical">SURROGATE</td><td>|r| ≥ 0.70</td><td>Functional surrogate — REMOVE the feature</td></tr>
+      </tbody>
+    </table>
+
+    <div class="citation"><strong>FORMULA:</strong> DIR = (Selection Rate of Unprivileged Group) ÷ (Selection Rate of Privileged Group)<br><strong>COMMON PROXIES TO FLAG:</strong> ZIP code, surname patterns, school attended, "gaps in employment," dialect markers, names of professional associations, photo metadata, language proficiency phrasing, "cultural fit" scores, credit-derived features.</div>
+
+    <div class="calc">
+      <h4>⌬ Trickster Audit — Live 4/5ths Calculator</h4>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Selection rate — privileged group (highest)</label>
+          <input type="number" id="trick-priv" step="0.01" min="0" max="1" placeholder="e.g. 0.50">
+        </div>
+        <div class="calc-field">
+          <label>Selection rate — unprivileged group</label>
+          <input type="number" id="trick-unpriv" step="0.01" min="0" max="1" placeholder="e.g. 0.35">
+        </div>
+      </div>
+      <button class="calc-button" onclick="runTricksterAudit()">Run Trickster Audit (4/5ths Rule)</button>
+      <div class="calc-result" id="trick-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AUDIT 4: CROSSROADS ===== -->
+<div class="audit">
+  <div class="audit-head">
+    <div class="audit-glyph">IV</div>
+    <div class="audit-title">
+      <span class="label">Audit 04 — Intersectionality</span>
+      <h2>CROSSROADS</h2>
+      <div class="audit-question">Who falls through the cracks?</div>
+    </div>
+  </div>
+  <div class="audit-body">
+    <p>The Crossroads audit detects intersectional harm — bias that hides inside the overlap. A model can look fair across "race" and fair across "gender" while devastating Black women. This is the failure Kimberlé Crenshaw named in 1989, and it is the failure most often missed because aggregate metrics smooth it over.</p>
+
+    <span class="focus-label">What to look for</span>
+    <p>Test every two-way intersection (race × gender, race × age, gender × disability, religion × national origin, etc.) and selected three-way intersections (race × gender × age). Apply the 4/5ths rule to <strong>each subgroup independently</strong>. A model that passes single-axis audits and fails intersectional audits is not a fair model — it is a model that has been audited badly.</p>
+
+    <span class="focus-label">Tolerance thresholds — Intersectional Subgroup Analysis</span>
+    <table class="threshold-table">
+      <thead><tr><th>Test</th><th>Threshold</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Minimum cell size</td><td>n ≥ 30</td><td>Below 30, results are statistically unreliable — collect more data</td></tr>
+        <tr><td>Each 2-way intersection</td><td>DIR ≥ 0.80</td><td>Must independently satisfy 4/5ths Rule</td></tr>
+        <tr><td>Selected 3-way intersections</td><td>DIR ≥ 0.80</td><td>Required for high-stakes domains: hiring, lending, healthcare, criminal justice</td></tr>
+        <tr><td>Aggregation rule</td><td>min(DIR) across subgroups</td><td>Report the WORST subgroup, not the average</td></tr>
+      </tbody>
+    </table>
+
+    <div class="citation"><strong>RULE:</strong> Report the minimum DIR across all subgroups, not the mean. An average is a place to hide. The worst-served intersectional subgroup is the model's true performance ceiling.</div>
+
+    <div class="calc">
+      <h4>⌬ Crossroads Audit — Worst-Subgroup Tracker</h4>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Subgroup A (e.g. "Black women") selection rate</label>
+          <input type="number" id="cross-a" step="0.01" min="0" max="1" placeholder="e.g. 0.18">
+        </div>
+        <div class="calc-field">
+          <label>Sample size n for Subgroup A</label>
+          <input type="number" id="cross-na" step="1" min="0" placeholder="e.g. 142">
+        </div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label>Reference group selection rate (e.g. "White men")</label>
+          <input type="number" id="cross-ref" step="0.01" min="0" max="1" placeholder="e.g. 0.55">
+        </div>
+        <div class="calc-field">
+          <label>Sample size n for reference group</label>
+          <input type="number" id="cross-nref" step="1" min="0" placeholder="e.g. 890">
+        </div>
+      </div>
+      <button class="calc-button" onclick="runCrossroadsAudit()">Run Crossroads Audit</button>
+      <div class="calc-result" id="cross-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== IMPLEMENTATION CHECKLIST ===== -->
+<div class="checklist">
+  <h2>⚑ Pre-Shipment Implementation Checklist</h2>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>1.</strong> Run all four audits: <strong>VOID</strong>, <strong>MIRROR</strong>, <strong>TRICKSTER</strong>, <strong>CROSSROADS</strong>.</div>
+  </div>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>2.</strong> Verify the floor — confirm no weaker tools were substituted for the sake of velocity or convenience.</div>
+  </div>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>3.</strong> Check tolerance — is every metric within published thresholds? If not: <strong>FIX OR REFUSE</strong>.</div>
+  </div>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>4.</strong> Test the minimum subgroup — report the <strong>worst</strong> intersectional cell, not the average.</div>
+  </div>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>5.</strong> Document everything — the data lineage, audit results, fixes applied, and tolerances accepted (with rationale).</div>
+  </div>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>6.</strong> Codify the "No" — if the system cannot be made fair, document the refusal and the rationale. Refusal is a deliverable.</div>
+  </div>
+  <div class="check-item" onclick="this.classList.toggle('done')">
+    <div class="check-box"></div>
+    <div class="check-text"><strong>7.</strong> Pass it on — code-review the protocol into the next engineer. Ethics is a habit.</div>
+  </div>
+</div>
+
+<!-- ===== INTEGRATION ===== -->
+<div class="integration">
+  <h2>// Integration with GODMODE Reset Protocol</h2>
+  <p>This module exposes a global <code style="color:var(--accent2);font-family:'IBM Plex Mono',monospace">window.BiasAuditor</code> namespace with pure functions for each audit. Drop this file into your <code style="color:var(--accent2);font-family:'IBM Plex Mono',monospace">masterisk-asterisk</code> repo and import it before the GODMODE scanner runs, or call the API directly from your existing <code style="color:var(--accent2);font-family:'IBM Plex Mono',monospace">scanDocument()</code> handler.</p>
+
+<pre class="code"><span class="com">// 1. Drop this file into the repo:</span>
+<span class="com">//    github.com/Pant1f3r/masterisk-asterisk/public/bias-auditor-manifesto.html</span>
+
+<span class="com">// 2. In your main index.html, include the script logic. Either embed</span>
+<span class="com">//    or extract the &lt;script&gt; block below into a separate .js file.</span>
+
+<span class="com">// 3. Call the API from your scanner:</span>
+<span class="kw">const</span> voidResult     = <span class="fn">BiasAuditor</span>.<span class="fn">voidAudit</span>({ trainPct: 3.0, populationPct: 14.0 });
+<span class="kw">const</span> mirrorResult   = <span class="fn">BiasAuditor</span>.<span class="fn">mirrorAudit</span>({ privRate: 0.60, unprivRate: 0.35 });
+<span class="kw">const</span> tricksterResult = <span class="fn">BiasAuditor</span>.<span class="fn">tricksterAudit</span>({ privRate: 0.50, unprivRate: 0.35 });
+<span class="kw">const</span> crossResult    = <span class="fn">BiasAuditor</span>.<span class="fn">crossroadsAudit</span>({
+  subgroupRate: 0.18, subgroupN: 142,
+  referenceRate: 0.55, referenceN: 890
+});
+
+<span class="com">// 4. Each result returns:</span>
+<span class="com">//    { status: 'PASS'|'CAUTION'|'FAIL'|'CRITICAL', metric: number, message: string, threshold: object }</span>
+
+<span class="com">// 5. Roll the four results into an overall verdict:</span>
+<span class="kw">const</span> verdict = <span class="fn">BiasAuditor</span>.<span class="fn">aggregate</span>([voidResult, mirrorResult, tricksterResult, crossResult]);
+<span class="com">// → { overallStatus, worstAudit, recommendation }</span></pre>
+
+  <p style="margin-top:18px;font-size:0.85rem;color:var(--muted)"><strong style="color:var(--accent2)">Note:</strong> The <code style="color:var(--accent2);font-family:'IBM Plex Mono',monospace">aggregate()</code> function applies the Crossroads principle to the audit set itself — the overall verdict is the worst single audit result, not the average. A model fails as severely as its weakest audit.</p>
+</div>
+
+</div>
+
+<footer>
+© 2026 Edward C. Callender IV | <strong>KR0M3D1A® Digital ARC®</strong> | CreationsLab224<br>
+Masterisk_Asterisk™ | THE DIGITAL RECKONING© — Addendum XLVI: The Bias Auditor's Manifesto<br>
+CC BY-NC-SA 4.0 | <a href="https://masterisk-asterisk-eight.vercel.app">masterisk-asterisk-eight.vercel.app</a> | <a href="https://github.com/Pant1f3r/masterisk-asterisk">GitHub: Pant1f3r/masterisk-asterisk</a><br>
+<strong>edwardcallender94@gmail.com</strong> · <strong>ecc@cyberfaq.net</strong>
+</footer>
+
+<script>
+/* ============================================================================
+   THE BIAS AUDITOR — GODMODE Reset Protocol™ — Public API
+   ============================================================================
+   Pure functions. No external dependencies. Drop into masterisk-asterisk repo.
+   Each audit returns: { status, metric, message, threshold }
+   ============================================================================ */
+
+window.BiasAuditor = (function(){
+  'use strict';
+
+  /* ---------- AUDIT I — VOID (Representation Ratio) ---------- */
+  function voidAudit({ trainPct, populationPct }){
+    if (populationPct <= 0) return { status:'ERROR', metric:null, message:'Population baseline must be > 0', threshold:null };
+    const RR = trainPct / populationPct;
+    let status, message;
+    if (RR >= 0.80)      { status = 'PASS';     message = 'Adequate representation relative to target population.'; }
+    else if (RR >= 0.50) { status = 'CAUTION';  message = 'Under-represented. Augment training data or document the limit.'; }
+    else if (RR >= 0.10) { status = 'FAIL';     message = 'Severely under-represented. Model will fail this group.'; }
+    else                 { status = 'CRITICAL'; message = 'Effectively absent (VOID). REFUSE to ship until remedied.'; }
+    return { status, metric: RR, message, threshold: { name:'Representation Ratio', floor:0.80, formula:'training% / population%' } };
+  }
+
+  /* ---------- AUDIT II — MIRROR (Statistical Parity Difference) ---------- */
+  function mirrorAudit({ privRate, unprivRate }){
+    const SPD = unprivRate - privRate;
+    const absSPD = Math.abs(SPD);
+    let status, message;
+    if (absSPD <= 0.05)      { status = 'PASS';    message = 'Negligible disparity. Model output is statistically parity-aligned.'; }
+    else if (absSPD <= 0.10) { status = 'PASS';    message = 'Acceptable disparity within industry tolerance. Document and monitor.'; }
+    else if (absSPD <= 0.20) { status = 'CAUTION'; message = 'Significant disparity. Investigate causes and consider rebalancing.'; }
+    else                     { status = 'FAIL';    message = 'Disparate treatment. Fix the model or refuse to ship.'; }
+    return { status, metric: SPD, message, threshold: { name:'Statistical Parity Difference', ceiling:0.10, formula:'P(Ŷ=1|unpriv) − P(Ŷ=1|priv)' } };
+  }
+
+  /* ---------- AUDIT III — TRICKSTER (Disparate Impact Ratio — EEOC 4/5ths Rule) ---------- */
+  function tricksterAudit({ privRate, unprivRate }){
+    if (privRate <= 0) return { status:'ERROR', metric:null, message:'Privileged group selection rate must be > 0', threshold:null };
+    const DIR = unprivRate / privRate;
+    let status, message;
+    if (DIR >= 0.90)      { status = 'PASS';     message = 'Strong parity. No adverse impact concern.'; }
+    else if (DIR >= 0.80) { status = 'PASS';     message = 'Meets EEOC 4/5ths Rule. Within federal safe harbor.'; }
+    else if (DIR >= 0.65) { status = 'FAIL';     message = 'Adverse impact presumed under 29 CFR 1607.4(D). Burden shifts to defendant to show business necessity.'; }
+    else                  { status = 'CRITICAL'; message = 'Substantial disparate impact. Litigation-grade evidence of discrimination.'; }
+    return { status, metric: DIR, message, threshold: { name:'Disparate Impact Ratio (4/5ths Rule)', floor:0.80, formula:'unprivRate / privRate', citation:'29 CFR § 1607.4(D)' } };
+  }
+
+  /* ---------- AUDIT IV — CROSSROADS (Intersectional 4/5ths) ---------- */
+  function crossroadsAudit({ subgroupRate, subgroupN, referenceRate, referenceN }){
+    const warnings = [];
+    if (subgroupN < 30)  warnings.push('Subgroup n < 30 — results statistically unreliable.');
+    if (referenceN < 30) warnings.push('Reference n < 30 — results statistically unreliable.');
+    if (referenceRate <= 0) return { status:'ERROR', metric:null, message:'Reference selection rate must be > 0', threshold:null };
+    const DIR = subgroupRate / referenceRate;
+    let status, message;
+    if (DIR >= 0.90)      { status = 'PASS';     message = 'Intersectional subgroup parity within strong tolerance.'; }
+    else if (DIR >= 0.80) { status = 'PASS';     message = 'Subgroup meets 4/5ths Rule. Acceptable.'; }
+    else if (DIR >= 0.65) { status = 'FAIL';     message = 'Intersectional adverse impact. The model is failing this overlap.'; }
+    else                  { status = 'CRITICAL'; message = 'Severe intersectional harm. Refuse or fundamentally rework.'; }
+    if (warnings.length) message += ' ⚠ ' + warnings.join(' ');
+    return { status, metric: DIR, message, threshold: { name:'Intersectional Disparate Impact Ratio', floor:0.80, minCellSize:30, formula:'subgroupRate / referenceRate' } };
+  }
+
+  /* ---------- AGGREGATE — worst-of, not mean-of ---------- */
+  function aggregate(results){
+    const rank = { PASS:0, CAUTION:1, FAIL:2, CRITICAL:3, ERROR:3 };
+    let worst = results[0];
+    results.forEach(r => { if (rank[r.status] > rank[worst.status]) worst = r; });
+    let recommendation;
+    switch (worst.status){
+      case 'PASS':     recommendation = 'CLEARED FOR SHIPMENT. Document the audit trail and monitor in production.'; break;
+      case 'CAUTION':  recommendation = 'HOLD. Investigate the flagged audit, document tolerance acceptance with rationale, and re-test.'; break;
+      case 'FAIL':     recommendation = 'DO NOT SHIP. Remediate the failure, re-run the full audit suite, and require sign-off.'; break;
+      case 'CRITICAL': recommendation = 'REFUSE. Per Duty III, this system cannot be made fair with the current data or design. Document the refusal.'; break;
+      default:         recommendation = 'AUDIT INCOMPLETE. Resolve input errors and re-run.';
+    }
+    return { overallStatus: worst.status, worstAudit: worst, recommendation };
+  }
+
+  return { voidAudit, mirrorAudit, tricksterAudit, crossroadsAudit, aggregate };
+})();
+
+/* ============================================================================
+   UI bindings for the live calculators on this page
+   ============================================================================ */
+
+function render(elId, result){
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.classList.remove('pass','warn','fail');
+  let cls = 'pass';
+  if (result.status === 'CAUTION') cls = 'warn';
+  if (result.status === 'FAIL' || result.status === 'CRITICAL' || result.status === 'ERROR') cls = 'fail';
+  el.classList.add(cls, 'show');
+  const metric = (result.metric === null || result.metric === undefined) ? 'n/a' : (typeof result.metric === 'number' ? result.metric.toFixed(3) : result.metric);
+  el.innerHTML = `
+    <div class="verdict">${result.status}</div>
+    <div>${result.message}</div>
+    <div class="metric">Metric (${result.threshold ? result.threshold.name : '—'}): <span>${metric}</span></div>
+    ${result.threshold && result.threshold.citation ? `<div class="metric">Citation: <span>${result.threshold.citation}</span></div>` : ''}
+  `;
+}
+
+function num(id){ const v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+
+function runVoidAudit(){
+  const r = BiasAuditor.voidAudit({ trainPct: num('void-train'), populationPct: num('void-pop') });
+  render('void-result', r);
+}
+function runMirrorAudit(){
+  const r = BiasAuditor.mirrorAudit({ privRate: num('mirror-priv'), unprivRate: num('mirror-unpriv') });
+  render('mirror-result', r);
+}
+function runTricksterAudit(){
+  const r = BiasAuditor.tricksterAudit({ privRate: num('trick-priv'), unprivRate: num('trick-unpriv') });
+  render('trick-result', r);
+}
+function runCrossroadsAudit(){
+  const r = BiasAuditor.crossroadsAudit({
+    subgroupRate: num('cross-a'), subgroupN: num('cross-na'),
+    referenceRate: num('cross-ref'), referenceN: num('cross-nref')
+  });
+  render('cross-result', r);
+}
+</script>
+
+</body>
+</html>
