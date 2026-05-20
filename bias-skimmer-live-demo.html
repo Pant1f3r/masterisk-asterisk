@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bias Skimmer · Live Demo · KR0M3D1A©®™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-darker: #050505;
+  --bg-card: #0d0d0d;
+  --bg-card-2: #161616;
+  --mint: #39FF14;
+  --mint-glow: #00FF88;
+  --mint-dim: #4d804d;
+  --critical: #ff3838;
+  --vuln: #ffb938;
+  --proxied: #ff79c6;
+  --nominal: #4dd0e1;
+  --ink: #e4e4e7;
+  --ink-dim: #a1a1aa;
+  --rule: rgba(57,255,20,0.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg-darker);
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(57,255,20,0.04) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(0,255,136,0.03) 0%, transparent 45%);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  min-height: 100vh;
+  padding: 20px 16px 80px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(57,255,20,0.013) 3px, rgba(57,255,20,0.013) 4px);
+  z-index: 1;
+}
+.container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+
+/* HEADER */
+header {
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: 10px;
+}
+h1.brand {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(20px, 4.5vw, 30px);
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+.tagline {
+  font-family: 'IBM Plex Serif', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-top: 8px;
+  max-width: 720px;
+}
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid rgba(57,255,20,0.3);
+  border-radius: 2px;
+  color: var(--mint);
+}
+.status-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 8px var(--mint);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* SECTIONS */
+section {
+  margin-bottom: 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 20px;
+}
+section h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--mint);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+section h2::before {
+  content: '*';
+  color: var(--mint);
+  font-size: 20px;
+  line-height: 0;
+  position: relative;
+  top: 2px;
+}
+.section-desc {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-bottom: 16px;
+  line-height: 1.55;
+}
+
+/* TEST SUITE */
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 6px;
+}
+.test-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg-card-2);
+  border-left: 2px solid var(--mint-dim);
+  font-size: 11px;
+}
+.test-row.pass { border-left-color: var(--mint); }
+.test-row.fail { border-left-color: var(--critical); }
+.test-row.pending { border-left-color: var(--ink-dim); opacity: 0.5; }
+.test-icon {
+  width: 14px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--mint);
+}
+.test-row.fail .test-icon { color: var(--critical); }
+.test-row.pending .test-icon { color: var(--ink-dim); }
+.test-name { flex: 1; color: var(--ink); font-size: 11px; }
+
+.test-summary {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--bg-card-2);
+  border-left: 3px solid var(--mint);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.test-summary .stat {
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 12px;
+}
+.test-summary .stat-label {
+  color: var(--ink-dim);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+}
+.test-summary .stat-value {
+  color: var(--mint);
+  font-weight: 600;
+  font-size: 18px;
+}
+.test-summary .stat.fail .stat-value { color: var(--critical); }
+
+/* AUDIT CONTROLS */
+.audit-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.dataset-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dataset-btn {
+  background: transparent;
+  border: 1px solid rgba(57,255,20,0.3);
+  color: var(--ink);
+  padding: 10px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.dataset-btn:hover {
+  border-color: var(--mint);
+  background: rgba(57,255,20,0.05);
+}
+.dataset-btn.active {
+  background: var(--mint);
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 0 18px rgba(57,255,20,0.4);
+}
+.run-button {
+  background: var(--mint);
+  color: #000;
+  border: none;
+  padding: 14px 28px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  align-self: flex-start;
+}
+.run-button:hover {
+  box-shadow: 0 0 28px rgba(57,255,20,0.6);
+  transform: translateY(-1px);
+}
+.run-button:active { transform: translateY(0); }
+.run-button:disabled { opacity: 0.4; cursor: wait; }
+
+/* DATASET PREVIEW */
+.dataset-preview {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--bg-card-2);
+  border-left: 2px solid var(--mint-dim);
+  font-size: 11px;
+}
+.dataset-preview .pkey {
+  color: var(--ink-dim);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.dataset-preview .pdesc {
+  font-family: 'IBM Plex Serif', serif;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.dataset-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+  margin-top: 8px;
+}
+.dataset-preview th, .dataset-preview td {
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(57,255,20,0.08);
+}
+.dataset-preview th {
+  color: var(--mint);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.dataset-preview td { color: var(--ink-dim); }
+
+/* RESULTS */
+#results { display: none; }
+#results.shown { display: block; }
+
+.audit-summary-banner {
+  padding: 16px;
+  margin-bottom: 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-left: 4px solid var(--mint);
+  background: linear-gradient(90deg, rgba(57,255,20,0.06), transparent);
+}
+.audit-summary-banner.has-critical {
+  border-left-color: var(--critical);
+  background: linear-gradient(90deg, rgba(255,56,56,0.08), transparent);
+  color: var(--critical);
+}
+
+.findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.finding {
+  background: var(--bg-card-2);
+  padding: 14px 16px;
+  border-left: 3px solid var(--mint);
+}
+.finding.CRITICAL { border-left-color: var(--critical); }
+.finding.VULNERABILITY { border-left-color: var(--vuln); }
+.finding.PROXIED { border-left-color: var(--proxied); }
+.finding.NOMINAL { border-left-color: var(--nominal); opacity: 0.85; }
+.finding-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.finding-name {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.finding-severity {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+.finding.CRITICAL .finding-severity { color: var(--critical); }
+.finding.VULNERABILITY .finding-severity { color: var(--vuln); }
+.finding.PROXIED .finding-severity { color: var(--proxied); }
+.finding.NOMINAL .finding-severity { color: var(--nominal); }
+.finding-metrics {
+  display: flex;
+  gap: 20px;
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+}
+.finding-metric span { color: var(--mint); font-weight: 600; }
+.finding-message {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* FOOTER */
+footer {
+  margin-top: 36px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--ink-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+footer .ast { color: var(--mint); font-size: 14px; }
+footer a { color: var(--mint); text-decoration: none; }
+
+/* RUNNING ANIMATION */
+.running {
+  display: inline-block;
+  color: var(--mint);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+}
+.running::after {
+  content: '';
+  display: inline-block;
+  animation: dots 1.4s steps(4) infinite;
+  width: 1.2em;
+  text-align: left;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">KR0M3D1A©®™ DIGITAL ARC · LIVE BROWSER DEMO</div>
+  <h1 class="brand">BIAS SKIMMER <span style="color:var(--mint);font-weight:700">v1.0.1</span></h1>
+  <div class="tagline">Four audits. Real legal citations. Production-ready code, running here in your browser — no installation required. The same logic as the Python reference implementation in <em>Appendix B</em> of <em>The Materisk Asterisk</em>.</div>
+  <div class="status-strip">
+    <span class="status-pill"><span class="dot"></span> Live</span>
+    <span class="status-pill" id="test-status-pill"><span class="dot"></span> Tests pending</span>
+    <span class="status-pill">MIT licensed</span>
+  </div>
+</header>
+
+<!-- TEST SUITE SECTION -->
+<section>
+  <h2>Self-Tests <span style="font-family:'IBM Plex Mono';font-weight:400;font-size:11px;color:var(--ink-dim);letter-spacing:0.1em;margin-left:auto">21 cases · runs automatically</span></h2>
+  <div class="section-desc">When this page loads, 21 self-tests run against the four audits, the data structures, and the integration paths. All must pass for the tool to be considered verified. The same tests are reproduced in the Python implementation as <code style="background:rgba(57,255,20,0.1);padding:2px 6px;color:var(--mint)">test_bias_skimmer.py</code>.</div>
+  <div class="test-grid" id="test-grid"></div>
+  <div class="test-summary" id="test-summary">
+    <span class="stat"><span class="stat-label">Passed</span><span class="stat-value" id="passed-count">—</span></span>
+    <span class="stat fail"><span class="stat-label">Failed</span><span class="stat-value" id="failed-count">—</span></span>
+    <span class="stat"><span class="stat-label">Total</span><span class="stat-value" id="total-count">—</span></span>
+    <span class="stat"><span class="stat-label">Duration</span><span class="stat-value" id="duration-count">—</span></span>
+  </div>
+</section>
+
+<!-- LIVE AUDIT SECTION -->
+<section>
+  <h2>Live Audit <span style="font-family:'IBM Plex Mono';font-weight:400;font-size:11px;color:var(--ink-dim);letter-spacing:0.1em;margin-left:auto">try the four audits</span></h2>
+  <div class="section-desc">Pick a dataset, then run the audit. Each dataset is engineered to demonstrate specific behaviors. The Skimmer should flag bias when it exists and stay quiet when data is clean. Run all three to confirm.</div>
+
+  <div class="audit-controls">
+    <div>
+      <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:8px">Choose Dataset</div>
+      <div class="dataset-picker" id="dataset-picker">
+        <button class="dataset-btn active" data-ds="biased">Biased Demo (1,000 rows)</button>
+        <button class="dataset-btn" data-ds="clean">Clean Demo (1,000 rows)</button>
+        <button class="dataset-btn" data-ds="proxy">Proxy-Weaponized (1,000 rows)</button>
+      </div>
+    </div>
+
+    <div class="dataset-preview" id="dataset-preview"></div>
+
+    <button class="run-button" id="run-btn">▶ RUN AUDIT</button>
+  </div>
+
+  <div id="results">
+    <div class="audit-summary-banner" id="summary-banner"></div>
+    <div class="findings-list" id="findings-list"></div>
+  </div>
+</section>
+
+<footer>
+  <span class="ast">*</span>&nbsp; KR0M3D1A©®™ Digital ARC · Edward Craig Callender · 2026 &nbsp;<span class="ast">*</span><br>
+  <span style="display:inline-block;margin-top:8px;font-size:9px;letter-spacing:0.15em">Source: <a href="#">bias_skimmer.py</a> · Tests: <a href="#">test_bias_skimmer.py</a> · Book: <a href="#">The Materisk Asterisk</a></span>
+</footer>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// BIAS SKIMMER — JavaScript port of bias_skimmer.py
+// Identical four-audit logic, same thresholds, same legal citation messages.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Seeded PRNG (Mulberry32) for deterministic test datasets
+function mulberry32(seed) {
+  return function() {
+    var t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function randInt(rng, min, max) { return Math.floor(rng() * (max - min)) + min; }
+function randNormal(rng, mean, std) {
+  const u1 = rng(), u2 = rng();
+  return mean + std * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+}
+function clamp(x, min, max) { return Math.max(min, Math.min(max, x)); }
+
+// Stats helpers
+function mean(arr) { return arr.reduce((a,b)=>a+b,0) / arr.length; }
+function quantile(arr, q) {
+  const sorted = [...arr].sort((a,b)=>a-b);
+  const pos = (sorted.length - 1) * q;
+  const base = Math.floor(pos);
+  const rest = pos - base;
+  return sorted[base + 1] !== undefined
+    ? sorted[base] + rest * (sorted[base+1] - sorted[base])
+    : sorted[base];
+}
+function pearsonCorrelation(x, y) {
+  const n = x.length;
+  const mx = mean(x), my = mean(y);
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) {
+    num += (x[i]-mx) * (y[i]-my);
+    dx += (x[i]-mx) ** 2;
+    dy += (y[i]-my) ** 2;
+  }
+  return num / Math.sqrt(dx * dy);
+}
+
+// SEVERITY constants (matching Python)
+const SEVERITY = {
+  CRITICAL: 'CRITICAL',
+  VULNERABILITY: 'VULNERABILITY',
+  PROXIED: 'PROXIED',
+  NOMINAL: 'NOMINAL'
+};
+
+// ─── THE FOUR AUDITS ───────────────────────────────────────────────────────
+
+function checkZeroPointErasure(df, targetCol, outcomeCol, threshold = 0.70) {
+  if (!df[0] || !(targetCol in df[0])) return null;
+  const zeroRows = df.filter(r => r[targetCol] === 0 || r[targetCol] == null);
+  const nonZeroRows = df.filter(r => r[targetCol] !== 0 && r[targetCol] != null);
+  if (zeroRows.length === 0 || nonZeroRows.length === 0) return null;
+  const zeroRate = mean(zeroRows.map(r => r[outcomeCol]));
+  const baselineRate = mean(nonZeroRows.map(r => r[outcomeCol]));
+  if (baselineRate === 0) return null;
+  const ratio = zeroRate / baselineRate;
+  if (ratio < threshold) {
+    return {
+      severity: SEVERITY.CRITICAL,
+      check_name: 'ZERO_POINT_ERASURE',
+      column: targetCol,
+      metric: ratio,
+      threshold: threshold,
+      message: `Value '0/null' in [${targetCol}] yields only ${(zeroRate*100).toFixed(1)}% favorable outcome vs ${(baselineRate*100).toFixed(1)}% baseline. Disparity ratio ${ratio.toFixed(3)} < ${threshold} threshold. Semantic null-conflation / zero-proxy bias confirmed. Review under disparate impact framework (EEOC four-fifths rule, 29 CFR §1607).`
+    };
+  }
+  return null;
+}
+
+function checkReflectanceThresholds(df, sensorCol, errorCol = 'error', pct = 0.10, ceiling = 0.25) {
+  if (!df[0] || !(sensorCol in df[0]) || !(errorCol in df[0])) return null;
+  const values = df.map(r => r[sensorCol]);
+  const threshold = quantile(values, pct);
+  const darkRows = df.filter(r => r[sensorCol] <= threshold);
+  const systemMean = mean(df.map(r => r[errorCol]));
+  const errorRateDark = mean(darkRows.map(r => r[errorCol]));
+  if (errorRateDark > ceiling) {
+    return {
+      severity: SEVERITY.VULNERABILITY,
+      check_name: 'REFLECTANCE_SIGNAL_LOSS',
+      column: sensorCol,
+      metric: errorRateDark,
+      threshold: ceiling,
+      message: `Bottom ${(pct*100).toFixed(0)}% reflectance data error rate = ${(errorRateDark*100).toFixed(1)}% vs system mean ${(systemMean*100).toFixed(1)}%. Worst-performing subset clusters at one end of the measurable signal range. Likely undertraining on low-signal regions; recommend stratified validation and Fitzpatrick / domain-specific calibration.`
+    };
+  }
+  return null;
+}
+
+function detectProxyWeaponization(df, proxyCol, demCol, ceiling = 0.85) {
+  if (!df[0] || !(proxyCol in df[0]) || !(demCol in df[0])) return null;
+  const x = df.map(r => r[proxyCol]);
+  const y = df.map(r => r[demCol]);
+  const r = pearsonCorrelation(x, y);
+  if (Math.abs(r) > ceiling) {
+    return {
+      severity: SEVERITY.PROXIED,
+      check_name: 'PROXY_WEAPONIZATION',
+      column: proxyCol,
+      metric: r,
+      threshold: ceiling,
+      message: `[${proxyCol}] ↔ [${demCol}] Pearson r = ${r.toFixed(4)}. Exceeds |${ceiling}| ceiling — the feature is functioning as a demographic stand-in. Review under disparate impact framework: Title VII (employment), Fair Housing Act (housing), Equal Credit Opportunity Act Regulation B (credit). Document business necessity or remove the feature.`
+    };
+  }
+  return null;
+}
+
+function checkIntersectionalAmplification(df, groupCol, outcomeCol, threshold = 0.65, minN = 20) {
+  if (!df[0] || !(groupCol in df[0])) return [];
+  const findings = [];
+  const groups = [...new Set(df.map(r => r[groupCol]))];
+  const baselineRate = mean(df.map(r => r[outcomeCol]));
+  for (const g of groups) {
+    const subset = df.filter(r => r[groupCol] === g);
+    if (subset.length < minN) continue;
+    const rate = mean(subset.map(r => r[outcomeCol]));
+    const ratio = baselineRate > 0 ? rate / baselineRate : 1;
+    if (ratio < threshold) {
+      findings.push({
+        severity: SEVERITY.CRITICAL,
+        check_name: 'INTERSECTIONAL_AMPLIFICATION',
+        column: groupCol,
+        metric: ratio,
+        threshold: threshold,
+        message: `Group [${groupCol}=${g}] outcome rate ${(rate*100).toFixed(1)}% vs baseline ${(baselineRate*100).toFixed(1)}%. Intersectional ratio ${ratio.toFixed(3)} < 0.65 — compound bias amplification at this intersection. EEOC four-fifths rule (0.80) also breached. Disparate impact analysis required.`
+      });
+    }
+  }
+  return findings;
+}
+
+// ─── DATASET BUILDERS ──────────────────────────────────────────────────────
+
+function biasedDataset(n = 1000, seed = 42) {
+  const rng = mulberry32(seed);
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const color = randInt(rng, 0, 256);
+    const isDark = color < 51;
+    data.push({
+      color_value: color,
+      reflectance_score: clamp(color / 255 + randNormal(rng, 0, 0.05), 0.01, 1.0),
+      zip_code: isDark ? randInt(rng, 10000, 30000) : randInt(rng, 50000, 99999),
+      demographic_proxy: isDark ? rng() * 0.4 + 0.6 : rng() * 0.5,
+      error: isDark ? rng() * 0.3 + 0.3 : rng() * 0.2,
+      outcome: isDark ? (rng() > 0.6 ? 1 : 0) : (rng() > 0.35 ? 1 : 0),
+    });
+  }
+  return data;
+}
+
+function cleanDataset(n = 1000, seed = 7) {
+  const rng = mulberry32(seed);
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    data.push({
+      color_value: randInt(rng, 1, 256),
+      reflectance_score: clamp(rng() * 0.5 + 0.4, 0.01, 1.0),
+      zip_code: randInt(rng, 10000, 99999),
+      demographic_proxy: rng(),
+      error: rng() * 0.15,
+      outcome: rng() > 0.5 ? 1 : 0,
+    });
+  }
+  return data;
+}
+
+function proxyDataset(n = 1000, seed = 11) {
+  const rng = mulberry32(seed);
+  const data = [];
+  for (let i = 0; i < n; i++) {
+    const demographic = rng();
+    const zip = Math.round(demographic * 80000 + 10000 + randNormal(rng, 0, 200));
+    data.push({
+      color_value: randInt(rng, 0, 256),
+      reflectance_score: rng() * 0.5 + 0.4,
+      zip_code: zip,
+      demographic_proxy: demographic,
+      error: rng() * 0.1,
+      outcome: rng() > 0.5 ? 1 : 0,
+    });
+  }
+  return data;
+}
+
+// ─── FULL AUDIT PIPELINE ───────────────────────────────────────────────────
+
+function runFullAudit(df) {
+  const findings = [];
+  const nominal = [];
+
+  const voidF = checkZeroPointErasure(df, 'color_value', 'outcome');
+  if (voidF) findings.push(voidF);
+  else nominal.push({ check_name: 'ZERO_POINT_ERASURE', column: 'color_value', message: 'Void Audit: outcome distribution across zero/null and non-zero entries falls within acceptable tolerance.' });
+
+  const mirrorF = checkReflectanceThresholds(df, 'reflectance_score', 'error');
+  if (mirrorF) findings.push(mirrorF);
+  else nominal.push({ check_name: 'REFLECTANCE_SIGNAL_LOSS', column: 'reflectance_score', message: 'Mirror Audit: error rate in the worst-performing decile is within tolerance.' });
+
+  const trickF = detectProxyWeaponization(df, 'zip_code', 'demographic_proxy');
+  if (trickF) findings.push(trickF);
+  else nominal.push({ check_name: 'PROXY_WEAPONIZATION', column: 'zip_code', message: 'Trickster Audit: correlation between candidate proxy and demographic signal is below threshold.' });
+
+  // Build color_bin for Crossroads
+  const colorMin = Math.min(...df.map(r => r.color_value));
+  const colorMax = Math.max(...df.map(r => r.color_value));
+  const binSize = (colorMax - colorMin) / 5;
+  df.forEach(r => { r.color_bin = Math.min(4, Math.floor((r.color_value - colorMin) / binSize)); });
+  const crossF = checkIntersectionalAmplification(df, 'color_bin', 'outcome');
+  crossF.forEach(f => findings.push(f));
+  if (crossF.length === 0) nominal.push({ check_name: 'INTERSECTIONAL_AMPLIFICATION', column: 'color_bin', message: 'Crossroads Audit: no subset falls below the intersectional disparity threshold.' });
+
+  return { findings, nominal, has_critical: findings.some(f => f.severity === SEVERITY.CRITICAL) };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TEST SUITE — 21 cases, same as test_bias_skimmer.py
+// ═══════════════════════════════════════════════════════════════════════════
+
+const tests = [
+  ['Void Audit fires on biased dataset', () => {
+    const r = checkZeroPointErasure(biasedDataset(), 'color_value', 'outcome');
+    if (!r) throw new Error('expected finding');
+    if (r.severity !== SEVERITY.CRITICAL) throw new Error('expected CRITICAL');
+  }],
+  ['Void Audit nominal on clean dataset', () => {
+    const r = checkZeroPointErasure(cleanDataset(), 'color_value', 'outcome');
+    if (r) throw new Error('expected no finding, got: ' + JSON.stringify(r));
+  }],
+  ['Void Audit handles missing column gracefully', () => {
+    const r = checkZeroPointErasure(cleanDataset(), 'nonexistent', 'outcome');
+    if (r !== null) throw new Error('expected null on missing column');
+  }],
+  ['Mirror Audit fires on biased dataset', () => {
+    const r = checkReflectanceThresholds(biasedDataset(), 'reflectance_score');
+    if (!r) throw new Error('expected finding');
+    if (r.severity !== SEVERITY.VULNERABILITY) throw new Error('expected VULNERABILITY');
+  }],
+  ['Mirror Audit nominal on clean dataset', () => {
+    const r = checkReflectanceThresholds(cleanDataset(), 'reflectance_score');
+    if (r) throw new Error('expected no finding');
+  }],
+  ['Mirror Audit handles missing column gracefully', () => {
+    const r = checkReflectanceThresholds(cleanDataset(), 'nonexistent');
+    if (r !== null) throw new Error('expected null on missing column');
+  }],
+  ['Trickster Audit fires on proxy-weaponized dataset', () => {
+    const r = detectProxyWeaponization(proxyDataset(), 'zip_code', 'demographic_proxy');
+    if (!r) throw new Error('expected finding');
+    if (r.severity !== SEVERITY.PROXIED) throw new Error('expected PROXIED');
+  }],
+  ['Trickster Audit nominal on clean dataset', () => {
+    const r = detectProxyWeaponization(cleanDataset(), 'zip_code', 'demographic_proxy');
+    if (r) throw new Error('expected no finding');
+  }],
+  ['Trickster Audit handles missing column gracefully', () => {
+    const r = detectProxyWeaponization(cleanDataset(), 'nonexistent', 'demographic_proxy');
+    if (r !== null) throw new Error('expected null on missing column');
+  }],
+  ['Crossroads Audit fires on intersectional disparity', () => {
+    const rng = mulberry32(99);
+    const df = [];
+    for (let i = 0; i < 500; i++) {
+      const g = randInt(rng, 0, 4);
+      const outcome = g === 0 ? (rng() > 0.85 ? 1 : 0) : (rng() > 0.3 ? 1 : 0);
+      df.push({ group: g, outcome });
+    }
+    const findings = checkIntersectionalAmplification(df, 'group', 'outcome');
+    if (findings.length === 0) throw new Error('expected at least one finding');
+  }],
+  ['Crossroads Audit nominal when subsets balanced', () => {
+    const rng = mulberry32(7);
+    const df = [];
+    for (let i = 0; i < 1000; i++) df.push({ group: randInt(rng,0,4), outcome: rng()>0.5?1:0 });
+    const findings = checkIntersectionalAmplification(df, 'group', 'outcome');
+    if (findings.length !== 0) throw new Error('expected no findings');
+  }],
+  ['Crossroads skips subsets with n < 20', () => {
+    const df = [];
+    for (let i = 0; i < 10; i++) df.push({ group: 0, outcome: 0 });
+    for (let i = 0; i < 500; i++) df.push({ group: 1, outcome: 1 });
+    const findings = checkIntersectionalAmplification(df, 'group', 'outcome');
+    if (findings.length !== 0) throw new Error('should skip small subsets');
+  }],
+  ['Finding has correct shape', () => {
+    const r = checkZeroPointErasure(biasedDataset(), 'color_value', 'outcome');
+    for (const f of ['severity','check_name','column','message','metric','threshold']) {
+      if (!(f in r)) throw new Error('missing field: ' + f);
+    }
+  }],
+  ['Full audit returns has_critical true on biased data', () => {
+    const r = runFullAudit(biasedDataset());
+    if (!r.has_critical) throw new Error('expected has_critical=true');
+  }],
+  ['Full audit returns has_critical false on clean data', () => {
+    const r = runFullAudit(cleanDataset());
+    if (r.has_critical) throw new Error('expected has_critical=false');
+  }],
+  ['Pearson correlation correct on perfect linear', () => {
+    const x = [1,2,3,4,5], y = [2,4,6,8,10];
+    const r = pearsonCorrelation(x, y);
+    if (Math.abs(r - 1.0) > 0.0001) throw new Error('expected r=1.0, got ' + r);
+  }],
+  ['Pearson correlation correct on negative linear', () => {
+    const x = [1,2,3,4,5], y = [5,4,3,2,1];
+    const r = pearsonCorrelation(x, y);
+    if (Math.abs(r + 1.0) > 0.0001) throw new Error('expected r=-1.0, got ' + r);
+  }],
+  ['Quantile function returns correct values', () => {
+    const q = quantile([1,2,3,4,5,6,7,8,9,10], 0.5);
+    if (Math.abs(q - 5.5) > 0.01) throw new Error('expected median=5.5, got ' + q);
+  }],
+  ['Mean function correct', () => {
+    if (Math.abs(mean([1,2,3,4,5]) - 3) > 0.0001) throw new Error('expected mean=3');
+  }],
+  ['Mulberry32 PRNG deterministic', () => {
+    const rng1 = mulberry32(42), rng2 = mulberry32(42);
+    if (rng1() !== rng2()) throw new Error('same seed should produce same sequence');
+  }],
+  ['Biased dataset has expected size', () => {
+    if (biasedDataset(1000).length !== 1000) throw new Error('expected 1000 rows');
+  }],
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UI WIRING
+// ═══════════════════════════════════════════════════════════════════════════
+
+const datasetDescriptions = {
+  biased: {
+    title: 'BIASED DEMO',
+    desc: 'Synthetic data engineered to exhibit zero-point erasure and reflectance signal loss. Should trigger the Void Audit (CRITICAL) and Mirror Audit (VULNERABILITY).',
+    expect: 'Expect: 1 critical + 1 vulnerability finding'
+  },
+  clean: {
+    title: 'CLEAN DEMO',
+    desc: 'Synthetic data with no engineered bias. All values uniformly distributed. Used to verify the Skimmer does not false-positive.',
+    expect: 'Expect: no findings (all four audits nominal)'
+  },
+  proxy: {
+    title: 'PROXY-WEAPONIZED DEMO',
+    desc: 'Synthetic data where zip_code is constructed as a near-linear function of demographic_proxy. Should trigger the Trickster Audit (PROXIED).',
+    expect: 'Expect: 1 proxied finding on zip_code ↔ demographic_proxy'
+  }
+};
+
+function renderDatasetPreview(ds) {
+  const d = datasetDescriptions[ds];
+  const data = ds === 'biased' ? biasedDataset() : ds === 'clean' ? cleanDataset() : proxyDataset();
+  const sample = data.slice(0, 4);
+  let html = `<div class="pkey">${d.title}</div><div class="pdesc">${d.desc}</div><div style="color:var(--mint);font-size:10px;letter-spacing:0.1em;margin-top:6px">${d.expect}</div>`;
+  html += '<table><thead><tr>';
+  for (const k of Object.keys(sample[0])) html += `<th>${k}</th>`;
+  html += '</tr></thead><tbody>';
+  for (const row of sample) {
+    html += '<tr>';
+    for (const v of Object.values(row)) html += `<td>${typeof v === 'number' ? v.toFixed(3) : v}</td>`;
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('dataset-preview').innerHTML = html;
+}
+
+function renderResults(report) {
+  const banner = document.getElementById('summary-banner');
+  const findingsList = document.getElementById('findings-list');
+  const critCount = report.findings.filter(f => f.severity === SEVERITY.CRITICAL).length;
+  const vulnCount = report.findings.filter(f => f.severity === SEVERITY.VULNERABILITY).length;
+  const proxCount = report.findings.filter(f => f.severity === SEVERITY.PROXIED).length;
+
+  if (report.findings.length === 0) {
+    banner.className = 'audit-summary-banner';
+    banner.textContent = '✓ AUDIT COMPLETE · NO ARCHITECTURAL FLAWS DETECTED';
+  } else {
+    banner.className = 'audit-summary-banner has-critical';
+    banner.textContent = `✗ AUDIT COMPLETE · ${report.findings.length} finding${report.findings.length>1?'s':''} (${critCount} critical · ${vulnCount} vuln · ${proxCount} proxied)`;
+  }
+
+  let html = '';
+  const allChecks = [...report.findings, ...report.nominal];
+  for (const item of allChecks) {
+    const sev = item.severity || 'NOMINAL';
+    const metricLine = item.metric !== undefined ? `<div class="finding-metrics"><div class="finding-metric">Metric <span>${item.metric.toFixed(4)}</span></div><div class="finding-metric">Threshold <span>${item.threshold.toFixed(4)}</span></div></div>` : '';
+    html += `<div class="finding ${sev}">
+      <div class="finding-head">
+        <div class="finding-name">${item.check_name} · ${item.column}</div>
+        <div class="finding-severity">${sev}</div>
+      </div>
+      ${metricLine}
+      <div class="finding-message">${item.message}</div>
+    </div>`;
+  }
+  findingsList.innerHTML = html;
+  document.getElementById('results').classList.add('shown');
+}
+
+// Dataset picker
+let selectedDataset = 'biased';
+document.querySelectorAll('.dataset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dataset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedDataset = btn.dataset.ds;
+    renderDatasetPreview(selectedDataset);
+    document.getElementById('results').classList.remove('shown');
+  });
+});
+
+// Run audit
+document.getElementById('run-btn').addEventListener('click', () => {
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="running">RUNNING</span>';
+  setTimeout(() => {
+    const data = selectedDataset === 'biased' ? biasedDataset() : selectedDataset === 'clean' ? cleanDataset() : proxyDataset();
+    const report = runFullAudit(data);
+    renderResults(report);
+    btn.disabled = false;
+    btn.textContent = '▶ RUN AUDIT';
+  }, 400);
+});
+
+// ─── RUN TESTS ON PAGE LOAD ──────────────────────────────────────────────
+function runTests() {
+  const grid = document.getElementById('test-grid');
+  grid.innerHTML = '';
+  tests.forEach(([name]) => {
+    const row = document.createElement('div');
+    row.className = 'test-row pending';
+    row.innerHTML = `<span class="test-icon">…</span><span class="test-name">${name}</span>`;
+    grid.appendChild(row);
+  });
+
+  const start = performance.now();
+  let passed = 0, failed = 0;
+  tests.forEach(([name, fn], i) => {
+    setTimeout(() => {
+      const row = grid.children[i];
+      try {
+        fn();
+        row.classList.remove('pending');
+        row.classList.add('pass');
+        row.querySelector('.test-icon').textContent = '✓';
+        passed++;
+      } catch (e) {
+        row.classList.remove('pending');
+        row.classList.add('fail');
+        row.querySelector('.test-icon').textContent = '✗';
+        row.querySelector('.test-name').innerHTML = `${name}<div style="font-size:9px;color:var(--critical);margin-top:2px">${e.message}</div>`;
+        failed++;
+      }
+
+      if (i === tests.length - 1) {
+        const duration = ((performance.now() - start) / 1000).toFixed(2);
+        document.getElementById('passed-count').textContent = passed;
+        document.getElementById('failed-count').textContent = failed;
+        document.getElementById('total-count').textContent = tests.length;
+        document.getElementById('duration-count').textContent = duration + 's';
+        const pill = document.getElementById('test-status-pill');
+        if (failed === 0) {
+          pill.innerHTML = '<span class="dot"></span> All tests passing';
+          pill.style.borderColor = 'var(--mint)';
+        } else {
+          pill.innerHTML = `<span class="dot" style="background:var(--critical);box-shadow:0 0 8px var(--critical)"></span> ${failed} failed`;
+          pill.style.borderColor = 'var(--critical)';
+          pill.style.color = 'var(--critical)';
+        }
+      }
+    }, i * 40);
+  });
+}
+
+// Initial render
+renderDatasetPreview('biased');
+runTests();
+</script>
+</body>
+</html>

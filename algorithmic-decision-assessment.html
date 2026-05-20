@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algorithmic Decision Assessment · KR0M3D1A©®™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-darker: #050505;
+  --bg-card: #0d0d0d;
+  --bg-card-2: #161616;
+  --mint: #39FF14;
+  --mint-glow: #00FF88;
+  --mint-dim: #4d804d;
+  --critical: #ff3838;
+  --warning: #ffb938;
+  --proxied: #ff79c6;
+  --info: #4dd0e1;
+  --ink: #e4e4e7;
+  --ink-dim: #a1a1aa;
+  --rule: rgba(57,255,20,0.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg-darker);
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(57,255,20,0.04) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(0,255,136,0.03) 0%, transparent 45%);
+  color: var(--ink);
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  min-height: 100vh;
+  padding: 20px 16px 80px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(57,255,20,0.013) 3px, rgba(57,255,20,0.013) 4px);
+  z-index: 1;
+}
+.container { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+
+/* HEADER */
+header { margin-bottom: 24px; border-bottom: 1px solid var(--rule); padding-bottom: 18px; }
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: 10px;
+}
+h1.brand {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(20px, 4.5vw, 28px);
+  letter-spacing: 0.04em;
+  color: #fff;
+  line-height: 1.2;
+}
+.tagline {
+  font-family: 'IBM Plex Serif', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-top: 10px;
+  max-width: 720px;
+  line-height: 1.55;
+}
+.legal-banner {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: rgba(255,185,56,0.05);
+  border-left: 3px solid var(--warning);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--warning);
+  line-height: 1.5;
+}
+.legal-banner strong { color: #fff; font-weight: 600; }
+
+/* PROGRESS BAR */
+.progress-container { margin: 24px 0 32px; }
+.progress-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-label .step-name { color: var(--mint); }
+.progress-bar {
+  height: 4px;
+  background: var(--bg-card-2);
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--mint);
+  width: 0%;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 12px var(--mint);
+}
+
+/* STEP CARD */
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.step-card h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--mint);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.step-card .step-desc {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 13px;
+  color: var(--ink-dim);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+
+/* INPUTS */
+.option-grid { display: grid; gap: 10px; margin-bottom: 16px; }
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-card-2);
+  border: 1px solid rgba(57,255,20,0.08);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.option:hover { border-color: var(--mint); background: rgba(57,255,20,0.04); }
+.option.selected { border-color: var(--mint); background: rgba(57,255,20,0.08); box-shadow: 0 0 12px rgba(57,255,20,0.15); }
+.option-check {
+  width: 18px; height: 18px;
+  border: 2px solid var(--mint-dim);
+  margin-top: 2px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  color: transparent;
+  transition: all 0.15s ease;
+}
+.option.selected .option-check { background: var(--mint); border-color: var(--mint); color: #000; }
+.option-check.radio { border-radius: 50%; }
+.option-check::before { content: '✓'; font-size: 12px; }
+.option-content { flex: 1; }
+.option-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+.option-detail {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 12px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+input[type="text"], input[type="date"], select, textarea {
+  width: 100%;
+  background: var(--bg-card-2);
+  border: 1px solid rgba(57,255,20,0.2);
+  color: var(--ink);
+  padding: 12px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--mint);
+  box-shadow: 0 0 0 2px rgba(57,255,20,0.2);
+}
+label.field-label {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 6px;
+}
+textarea { min-height: 80px; resize: vertical; }
+
+/* EDUCATIONAL SIDEBAR */
+.edu-box {
+  margin: 18px 0;
+  padding: 14px 16px;
+  background: rgba(77, 208, 225, 0.06);
+  border-left: 3px solid var(--info);
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.edu-box .edu-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--info);
+  margin-bottom: 6px;
+  font-style: normal;
+  font-weight: 600;
+}
+.edu-box strong { color: #fff; font-weight: 600; }
+
+/* RED FLAG */
+.red-flag {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: rgba(255, 56, 56, 0.08);
+  border-left: 3px solid var(--critical);
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.red-flag .flag-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--critical);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.red-flag strong { color: #fff; font-weight: 600; }
+
+/* NAVIGATION */
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+button.nav-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+}
+.nav-btn.back {
+  background: transparent;
+  color: var(--ink-dim);
+  border: 1px solid rgba(57,255,20,0.2);
+}
+.nav-btn.back:hover { color: var(--mint); border-color: var(--mint); }
+.nav-btn.next {
+  background: var(--mint);
+  color: #000;
+}
+.nav-btn.next:hover { box-shadow: 0 0 20px rgba(57,255,20,0.5); }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ACTION PLAN */
+.action-plan { display: none; }
+.action-plan.shown { display: block; }
+.action-section {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.action-section h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--mint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 8px;
+}
+.action-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(57,255,20,0.05);
+}
+.action-item:last-child { border: none; }
+.action-num {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--mint);
+  min-width: 30px;
+}
+.action-content { flex: 1; }
+.action-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.action-desc {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 12px;
+  color: var(--ink-dim);
+  line-height: 1.55;
+}
+.action-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--mint);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+.action-link:hover { text-decoration: underline; }
+
+.template-box {
+  background: var(--bg-card-2);
+  padding: 16px;
+  margin-top: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ink);
+  white-space: pre-wrap;
+  border-left: 2px solid var(--mint);
+  max-height: 320px;
+  overflow-y: auto;
+}
+.template-actions { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+.template-actions button {
+  background: transparent;
+  border: 1px solid rgba(57,255,20,0.3);
+  color: var(--mint);
+  padding: 6px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.template-actions button:hover { background: var(--mint); color: #000; }
+
+/* SUMMARY HEADER */
+.summary-banner {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(57,255,20,0.08), transparent);
+  border-left: 4px solid var(--mint);
+  border-right: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.summary-banner h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.summary-banner p {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+/* PRIVACY NOTE */
+.privacy-note {
+  text-align: center;
+  margin: 20px 0;
+  padding: 12px;
+  background: var(--bg-card-2);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+/* FOOTER */
+footer {
+  margin-top: 36px;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+footer .ast { color: var(--mint); font-size: 14px; }
+.checkbox-grid { display: grid; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">KR0M3D1A©®™ DIGITAL ARC · INDIVIDUAL ASSESSMENT TOOL</div>
+  <h1 class="brand">ALGORITHMIC<br>DECISION ASSESSMENT</h1>
+  <div class="tagline">An interactive wizard for anyone who has been denied credit, housing, employment, insurance, or healthcare by an automated system — to identify red flags, understand your legal rights, and generate a personalized action plan.</div>
+  <div class="legal-banner">
+    <strong>This is a guidance tool, not legal advice.</strong> It helps you understand your situation, identify potential red flags, and use the enforcement mechanisms federal law already gives you. For serious matters involving significant losses, consult a civil rights or consumer protection attorney. Many offer free initial consultations.
+  </div>
+</header>
+
+<div class="privacy-note">
+  ★ ALL INFORMATION KEPT LOCALLY · NOTHING TRANSMITTED · NO DATA SENT TO ANY SERVER ★
+</div>
+
+<div class="progress-container">
+  <div class="progress-label"><span>Progress</span><span class="step-name" id="step-name">Step 1 of 6 · Decision Type</span></div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- STEPS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div id="step-1" class="step-card">
+  <h2>What kind of decision was made about you?</h2>
+  <div class="step-desc">Different denials fall under different federal laws and different enforcement agencies. The first step is identifying which kind of decision you're dealing with.</div>
+  <div class="option-grid" data-field="decision_type">
+    <div class="option" data-value="credit"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Credit or Loan Denial</div><div class="option-detail">Credit card, personal loan, auto loan, business loan, or other lending. Covered by the Equal Credit Opportunity Act (ECOA) and Fair Credit Reporting Act (FCRA).</div></div></div>
+    <div class="option" data-value="housing"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Housing / Rental Denial</div><div class="option-detail">Apartment rental, tenant screening, lease renewal, or housing assistance. Covered by the Fair Housing Act and FCRA.</div></div></div>
+    <div class="option" data-value="mortgage"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Mortgage Denial</div><div class="option-detail">Home loan denial, refinance denial, or unfavorable mortgage terms. Covered by ECOA, FHA, and HMDA reporting requirements.</div></div></div>
+    <div class="option" data-value="employment"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Employment / Hiring Denial</div><div class="option-detail">Job rejection from an algorithmic resume screener, video interview AI, or hiring assessment. Covered by Title VII and (in NYC) Local Law 144.</div></div></div>
+    <div class="option" data-value="insurance"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Insurance Denial / Pricing</div><div class="option-detail">Auto, home, health, or life insurance denied or priced unusually high. Covered by state insurance regulators and FCRA.</div></div></div>
+    <div class="option" data-value="healthcare"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Healthcare Decision</div><div class="option-detail">Treatment denied or care prioritization decision made by an AI system. Covered by Section 1557 of the Affordable Care Act.</div></div></div>
+  </div>
+</div>
+
+<div id="step-2" class="step-card" style="display:none">
+  <h2>What do you know about the decision?</h2>
+  <div class="step-desc">The more specific you can be, the more useful the assessment becomes. All of this stays on your device.</div>
+  <label class="field-label">Who made the decision? (Company / institution name)</label>
+  <input type="text" id="decision_maker" placeholder="e.g., XYZ Bank, ABC Property Management, SafeRent">
+  <label class="field-label">Approximate date of decision</label>
+  <input type="date" id="decision_date">
+  <label class="field-label">What reason were you given, if any?</label>
+  <textarea id="denial_reason" placeholder="Quote the denial reason exactly if possible — e.g., 'risk score too high', 'failed background check', 'insufficient income', or 'denial based on automated screening'"></textarea>
+  <label class="field-label">Were you told this was an automated/algorithmic decision?</label>
+  <div class="option-grid" data-field="was_automated">
+    <div class="option" data-value="yes"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Yes, explicitly told</div></div></div>
+    <div class="option" data-value="suspected"><span class="option-check radio"></span><div class="option-content"><div class="option-label">Not told, but I suspect it was</div></div></div>
+    <div class="option" data-value="unsure"><span class="option-check radio"></span><div class="option-content"><div class="option-label">I'm not sure</div></div></div>
+    <div class="option" data-value="no"><span class="option-check radio"></span><div class="option-content"><div class="option-label">No, it appeared to be a human decision</div></div></div>
+  </div>
+</div>
+
+<div id="step-3" class="step-card" style="display:none">
+  <h2>What documentation do you have?</h2>
+  <div class="step-desc">Federal law requires the decision-maker to give you a written explanation in most cases. Check everything you have. (Multiple selections OK.)</div>
+  <div class="checkbox-grid" data-field="documentation">
+    <div class="option" data-value="adverse_action"><span class="option-check"></span><div class="option-content"><div class="option-label">Adverse Action Notice</div><div class="option-detail">Written letter explaining why you were denied. Required for credit denials under FCRA §615.</div></div></div>
+    <div class="option" data-value="denial_letter"><span class="option-check"></span><div class="option-content"><div class="option-label">Written denial letter (general)</div></div></div>
+    <div class="option" data-value="credit_report"><span class="option-check"></span><div class="option-content"><div class="option-label">My credit report from this period</div></div></div>
+    <div class="option" data-value="application_copy"><span class="option-check"></span><div class="option-content"><div class="option-label">A copy of my application as submitted</div></div></div>
+    <div class="option" data-value="screening_file"><span class="option-check"></span><div class="option-content"><div class="option-label">The screening report used (tenant report, background check, etc.)</div></div></div>
+    <div class="option" data-value="none"><span class="option-check"></span><div class="option-content"><div class="option-label">I have nothing in writing</div></div></div>
+  </div>
+  <div class="edu-box">
+    <div class="edu-label">Your Legal Right</div>
+    If you were denied credit, you have a federal right under <strong>FCRA §615(a)</strong> to receive a written adverse action notice listing the reasons for denial. If you don't have one, the lender owes you one. Same for ECOA Regulation B §1002.9 — the lender must give you specific reasons or notify you that you may request them. Most people don't ask. Ask.
+  </div>
+</div>
+
+<div id="step-4" class="step-card" style="display:none">
+  <h2>Red Flag Check</h2>
+  <div class="step-desc">Check anything that applies to your situation. The assessment will flag patterns that may indicate problematic algorithmic decision-making. (Multiple selections OK.)</div>
+  <div class="checkbox-grid" data-field="red_flags">
+    <div class="option" data-value="generic_reason"><span class="option-check"></span><div class="option-content"><div class="option-label">The reason given was vague or generic</div><div class="option-detail">e.g., "did not meet our criteria," "policy decision," "internal scoring"</div></div></div>
+    <div class="option" data-value="unknown_factors"><span class="option-check"></span><div class="option-content"><div class="option-label">The denial cited factors I don't recognize</div><div class="option-detail">Scores, indices, or "model outputs" that weren't explained</div></div></div>
+    <div class="option" data-value="contradicts_data"><span class="option-check"></span><div class="option-content"><div class="option-label">The denial contradicts my actual records</div><div class="option-detail">e.g., they cited "insufficient income" but your income meets their stated minimum</div></div></div>
+    <div class="option" data-value="zip_factor"><span class="option-check"></span><div class="option-content"><div class="option-label">My zip code or neighborhood seemed to matter</div><div class="option-detail">A serious red flag — zip codes are commonly used as racial proxies (see Chapter 4 of the book)</div></div></div>
+    <div class="option" data-value="similar_people_approved"><span class="option-check"></span><div class="option-content"><div class="option-label">People I know with similar profiles were approved</div><div class="option-detail">Suggests disparate treatment along some axis you may not see</div></div></div>
+    <div class="option" data-value="instant_decision"><span class="option-check"></span><div class="option-content"><div class="option-label">The decision was made in seconds or minutes</div><div class="option-detail">Strongly suggests fully automated decision with no human review</div></div></div>
+    <div class="option" data-value="refused_explanation"><span class="option-check"></span><div class="option-content"><div class="option-label">When I asked for explanation, I was refused</div><div class="option-detail">May violate ECOA, FCRA, or state-level transparency requirements</div></div></div>
+    <div class="option" data-value="screening_third_party"><span class="option-check"></span><div class="option-content"><div class="option-label">A third-party screening service was used</div><div class="option-detail">e.g., SafeRent, Sterling, HireRight, RentGrow, TransUnion SmartMove. You have a right to your file from them under FCRA.</div></div></div>
+    <div class="option" data-value="differs_human"><span class="option-check"></span><div class="option-content"><div class="option-label">A human in the company seemed surprised by the decision</div><div class="option-detail">e.g., an agent said "I don't see why the system denied this"</div></div></div>
+  </div>
+</div>
+
+<div id="step-5" class="step-card" style="display:none">
+  <h2>Demographic Context <span style="font-size:11px;color:var(--ink-dim);font-family:'IBM Plex Mono';font-weight:400;letter-spacing:0.1em">(Optional · Stays Local)</span></h2>
+  <div class="step-desc">Federal civil rights statutes protect against discrimination on the basis of certain characteristics. This question is optional, but the information helps the assessment identify which protections apply to your situation.</div>
+  <div class="edu-box">
+    <div class="edu-label">Privacy</div>
+    This information is <strong>never transmitted anywhere</strong>. It is kept only in your browser's active memory and is erased the moment you close this page. The assessment uses it only to identify which legal protections apply.
+  </div>
+  <label class="field-label">Race / Ethnicity (select all that apply)</label>
+  <div class="checkbox-grid" data-field="race_ethnicity">
+    <div class="option" data-value="black"><span class="option-check"></span><div class="option-content"><div class="option-label">Black or African American</div></div></div>
+    <div class="option" data-value="hispanic"><span class="option-check"></span><div class="option-content"><div class="option-label">Hispanic or Latino</div></div></div>
+    <div class="option" data-value="asian"><span class="option-check"></span><div class="option-content"><div class="option-label">Asian</div></div></div>
+    <div class="option" data-value="native"><span class="option-check"></span><div class="option-content"><div class="option-label">American Indian or Alaska Native</div></div></div>
+    <div class="option" data-value="pacific"><span class="option-check"></span><div class="option-content"><div class="option-label">Native Hawaiian or Pacific Islander</div></div></div>
+    <div class="option" data-value="white"><span class="option-check"></span><div class="option-content"><div class="option-label">White</div></div></div>
+    <div class="option" data-value="middle_eastern"><span class="option-check"></span><div class="option-content"><div class="option-label">Middle Eastern or North African</div></div></div>
+    <div class="option" data-value="prefer_not"><span class="option-check"></span><div class="option-content"><div class="option-label">Prefer not to say</div></div></div>
+  </div>
+  <label class="field-label">Other protected characteristics (select all that apply)</label>
+  <div class="checkbox-grid" data-field="other_protected">
+    <div class="option" data-value="age_40"><span class="option-check"></span><div class="option-content"><div class="option-label">Age 40 or older</div><div class="option-detail">Protected under ADEA (employment) and ECOA (credit)</div></div></div>
+    <div class="option" data-value="disability"><span class="option-check"></span><div class="option-content"><div class="option-label">Disability</div><div class="option-detail">Protected under ADA, Section 1557, FHA, ECOA</div></div></div>
+    <div class="option" data-value="gender_female"><span class="option-check"></span><div class="option-content"><div class="option-label">Female</div><div class="option-detail">Protected under Title VII, FHA, ECOA, Title IX</div></div></div>
+    <div class="option" data-value="gender_other"><span class="option-check"></span><div class="option-content"><div class="option-label">Transgender, non-binary, or other gender identity</div><div class="option-detail">Protected under Title VII (Bostock v. Clayton County, 2020)</div></div></div>
+    <div class="option" data-value="religion"><span class="option-check"></span><div class="option-content"><div class="option-label">Religious minority</div></div></div>
+    <div class="option" data-value="national_origin"><span class="option-check"></span><div class="option-content"><div class="option-label">National origin (immigrant or non-US ancestry)</div></div></div>
+    <div class="option" data-value="pregnancy"><span class="option-check"></span><div class="option-content"><div class="option-label">Pregnancy or pregnancy-related</div></div></div>
+    <div class="option" data-value="familial"><span class="option-check"></span><div class="option-content"><div class="option-label">Familial status (have or expecting children)</div><div class="option-detail">Protected under Fair Housing Act</div></div></div>
+  </div>
+</div>
+
+<div id="step-6" class="step-card" style="display:none">
+  <h2>Generate Your Action Plan</h2>
+  <div class="step-desc">Review the summary and click below to generate your personalized action plan, complete with the regulator to file with, deadlines, and pre-filled letter templates.</div>
+  <div id="summary-display" style="font-family:'IBM Plex Mono';font-size:12px;color:var(--ink-dim);background:var(--bg-card-2);padding:14px;border-left:2px solid var(--mint)"></div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-row" id="nav-row">
+  <button class="nav-btn back" id="back-btn" disabled>← Back</button>
+  <button class="nav-btn next" id="next-btn">Continue →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ACTION PLAN OUTPUT -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div id="action-plan" class="action-plan">
+  <div class="summary-banner">
+    <h2 id="plan-headline">YOUR ACTION PLAN</h2>
+    <p id="plan-summary"></p>
+  </div>
+
+  <div id="red-flags-section"></div>
+  <div id="agencies-section"></div>
+  <div id="documents-section"></div>
+  <div id="letters-section"></div>
+  <div id="resources-section"></div>
+
+  <div style="text-align:center;margin-top:24px">
+    <button class="nav-btn next" onclick="window.print()">⎙ PRINT THIS PLAN</button>
+    <button class="nav-btn back" onclick="location.reload()" style="margin-left:8px">↻ START OVER</button>
+  </div>
+</div>
+
+<footer>
+  <span class="ast">*</span>&nbsp; KR0M3D1A©®™ DIGITAL ARC · 2026 &nbsp;<span class="ast">*</span><br>
+  <span style="display:inline-block;margin-top:8px;font-size:9px;letter-spacing:0.15em">
+    Based on Appendix E of <em>The Materisk Asterisk</em> by Edward Craig Callender
+  </span>
+</footer>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════
+const state = {
+  decision_type: null,
+  decision_maker: '',
+  decision_date: '',
+  denial_reason: '',
+  was_automated: null,
+  documentation: [],
+  red_flags: [],
+  race_ethnicity: [],
+  other_protected: []
+};
+let currentStep = 1;
+const totalSteps = 6;
+const stepNames = {
+  1: 'Decision Type', 2: 'Details', 3: 'Documentation',
+  4: 'Red Flags', 5: 'Demographics', 6: 'Generate Plan'
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INTERACTION HANDLERS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Single-select (radio) options
+document.querySelectorAll('[data-field]').forEach(group => {
+  const field = group.dataset.field;
+  const isMulti = group.classList.contains('checkbox-grid');
+  group.querySelectorAll('.option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (isMulti) {
+        opt.classList.toggle('selected');
+        const value = opt.dataset.value;
+        if (opt.classList.contains('selected')) {
+          if (!state[field].includes(value)) state[field].push(value);
+        } else {
+          state[field] = state[field].filter(v => v !== value);
+        }
+      } else {
+        group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        state[field] = opt.dataset.value;
+      }
+    });
+  });
+});
+
+// Text inputs
+document.getElementById('decision_maker').addEventListener('input', e => state.decision_maker = e.target.value);
+document.getElementById('decision_date').addEventListener('input', e => state.decision_date = e.target.value);
+document.getElementById('denial_reason').addEventListener('input', e => state.denial_reason = e.target.value);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+function showStep(n) {
+  for (let i = 1; i <= totalSteps; i++) {
+    document.getElementById(`step-${i}`).style.display = (i === n) ? 'block' : 'none';
+  }
+  document.getElementById('step-name').textContent = `Step ${n} of ${totalSteps} · ${stepNames[n]}`;
+  document.getElementById('progress-fill').style.width = `${(n / totalSteps) * 100}%`;
+  document.getElementById('back-btn').disabled = (n === 1);
+  document.getElementById('next-btn').textContent = (n === totalSteps) ? 'Generate Plan ▸' : 'Continue →';
+  if (n === totalSteps) updateSummaryDisplay();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('back-btn').addEventListener('click', () => {
+  if (currentStep > 1) { currentStep--; showStep(currentStep); }
+});
+document.getElementById('next-btn').addEventListener('click', () => {
+  if (currentStep < totalSteps) { currentStep++; showStep(currentStep); }
+  else { generatePlan(); }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SUMMARY DISPLAY (Step 6)
+// ═══════════════════════════════════════════════════════════════════════════
+function updateSummaryDisplay() {
+  const s = state;
+  const lines = [
+    `Decision type: ${s.decision_type || '(not selected)'}`,
+    `Decision maker: ${s.decision_maker || '(not entered)'}`,
+    `Date: ${s.decision_date || '(not entered)'}`,
+    `Automated: ${s.was_automated || '(not selected)'}`,
+    `Documentation: ${s.documentation.length ? s.documentation.join(', ') : '(none indicated)'}`,
+    `Red flags identified: ${s.red_flags.length}`,
+    `Protected characteristics: ${[...s.race_ethnicity, ...s.other_protected].join(', ') || '(none indicated)'}`,
+  ];
+  document.getElementById('summary-display').innerHTML = lines.join('<br>');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AGENCY LOOKUP TABLE
+// ═══════════════════════════════════════════════════════════════════════════
+const AGENCIES = {
+  credit: [
+    { name: 'CFPB (Consumer Financial Protection Bureau)', url: 'https://www.consumerfinance.gov/complaint/', deadline: 'No strict deadline, but file promptly', desc: 'Primary federal regulator for credit/lending discrimination complaints under ECOA.' },
+    { name: 'FTC (Federal Trade Commission)', url: 'https://reportfraud.ftc.gov/', deadline: 'No strict deadline', desc: 'Handles deceptive credit practices and credit-reporting errors under FCRA.' },
+    { name: 'Your State Attorney General', url: 'https://www.naag.org/find-my-ag/', deadline: 'Varies by state', desc: 'Many state AGs have consumer protection divisions that handle credit discrimination.' }
+  ],
+  housing: [
+    { name: 'HUD (Office of Fair Housing and Equal Opportunity)', url: 'https://www.hud.gov/program_offices/fair_housing_equal_opp/online-complaint', deadline: '1 year from incident (Fair Housing Act)', desc: 'Primary federal agency for fair housing complaints.' },
+    { name: 'CFPB (for tenant-screening reports)', url: 'https://www.consumerfinance.gov/complaint/', deadline: 'No strict deadline', desc: 'For complaints about tenant-screening reports (SafeRent, RentGrow, etc.) under FCRA.' },
+    { name: 'Your State Civil Rights / Fair Housing Agency', url: 'https://www.hud.gov/states', deadline: 'Varies by state (often 1 year)', desc: 'Many states have their own fair housing enforcement bodies.' }
+  ],
+  mortgage: [
+    { name: 'CFPB', url: 'https://www.consumerfinance.gov/complaint/', deadline: 'No strict deadline', desc: 'Primary regulator for mortgage discrimination under ECOA and HMDA.' },
+    { name: 'HUD', url: 'https://www.hud.gov/program_offices/fair_housing_equal_opp/online-complaint', deadline: '1 year from incident', desc: 'For violations of the Fair Housing Act in mortgage lending.' },
+    { name: 'DOJ Civil Rights Division', url: 'https://civilrights.justice.gov/', deadline: 'No strict deadline', desc: 'For patterns of mortgage discrimination — escalation path beyond CFPB/HUD.' }
+  ],
+  employment: [
+    { name: 'EEOC (Equal Employment Opportunity Commission)', url: 'https://www.eeoc.gov/filing-charge-discrimination', deadline: '180 days from incident (300 in some states)', desc: 'Required first step for Title VII, ADEA, ADA, and Equal Pay Act claims.' },
+    { name: 'NYC DCWP (if NYC employer)', url: 'https://www.nyc.gov/site/dca/consumers/file-complaint.page', deadline: 'Varies', desc: 'New York City Local Law 144 requires bias audits for automated hiring tools.' },
+    { name: 'Your State Fair Employment Practices Agency', url: 'https://www.eeoc.gov/field-office', deadline: 'Varies by state', desc: 'EEOC can refer to your state agency, often with longer filing deadlines.' }
+  ],
+  insurance: [
+    { name: 'Your State Insurance Department', url: 'https://content.naic.org/state-insurance-departments', deadline: 'Varies', desc: 'Primary regulator for insurance practices in your state.' },
+    { name: 'CFPB (if FCRA-related)', url: 'https://www.consumerfinance.gov/complaint/', deadline: 'No strict deadline', desc: 'If a credit-based insurance score was used.' },
+    { name: 'Your State Attorney General', url: 'https://www.naag.org/find-my-ag/', deadline: 'Varies by state' }
+  ],
+  healthcare: [
+    { name: 'HHS Office for Civil Rights', url: 'https://www.hhs.gov/ocr/complaints/index.html', deadline: '180 days from incident (extensions possible)', desc: 'Federal enforcement for Section 1557 — including AI-driven care decisions.' },
+    { name: 'CMS (if Medicare/Medicaid)', url: 'https://www.medicare.gov/claims-appeals', deadline: 'Varies by appeal type' },
+    { name: 'Your State Department of Insurance', url: 'https://content.naic.org/state-insurance-departments', deadline: 'Varies' }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LETTER TEMPLATE GENERATORS
+// ═══════════════════════════════════════════════════════════════════════════
+function letterAdverseActionRequest(s) {
+  const today = new Date().toLocaleDateString('en-US');
+  return `[Your Name]
+[Your Address]
+[City, State ZIP]
+[Date: ${today}]
+
+${s.decision_maker || '[Decision-Maker Name and Address]'}
+
+Re: Request for Adverse Action Notice / Specific Reasons for Denial
+
+To Whom It May Concern:
+
+On or about ${s.decision_date || '[date]'}, I received notification that my application was denied.
+
+Pursuant to my rights under the Fair Credit Reporting Act (15 U.S.C. §1681m / FCRA §615) and the Equal Credit Opportunity Act Regulation B (12 C.F.R. §1002.9), I formally request:
+
+  1. A complete written adverse action notice including all specific reasons for the denial, in rank order of importance;
+  2. The name, address, and phone number of any consumer reporting agency that provided information used in the decision;
+  3. Whether an automated decision-making system was used, and if so, the identity of that system;
+  4. The specific data points used by that system to reach the decision;
+  5. A copy of any score or risk assessment generated about me.
+
+I am entitled to this information by federal statute. Please respond within thirty (30) days as required by law.
+
+Sincerely,
+
+[Your Signature]
+[Your Printed Name]
+
+cc: Consumer Financial Protection Bureau (file pending)`;
+}
+
+function letterDiscriminationComplaint(s, agency) {
+  const today = new Date().toLocaleDateString('en-US');
+  const protectedClasses = [...s.race_ethnicity, ...s.other_protected].filter(v => v !== 'prefer_not' && v !== 'white');
+  const protectedDesc = protectedClasses.length
+    ? `I am a member of one or more protected classes (${protectedClasses.join(', ')}), and I have reason to believe the algorithmic decision may have disparately impacted me based on these protected characteristics.`
+    : 'I have reason to believe the algorithmic decision-making process may have disparately impacted protected classes.';
+
+  return `[Your Name]
+[Your Address]
+[City, State ZIP]
+[Date: ${today}]
+
+${agency}
+
+Re: Complaint of Algorithmic Discrimination
+
+To Whom It May Concern:
+
+I am filing this complaint regarding a ${s.decision_type === 'credit' ? 'credit/lending' : s.decision_type === 'mortgage' ? 'mortgage' : s.decision_type === 'housing' ? 'housing' : s.decision_type === 'employment' ? 'employment' : s.decision_type === 'insurance' ? 'insurance' : 'healthcare'} decision made about me by ${s.decision_maker || '[company name]'} on or about ${s.decision_date || '[date]'}.
+
+FACTS:
+
+The decision-maker denied my application. The stated reason was: "${s.denial_reason || '[reason given, or "no reason given"]'}"
+
+I believe this decision may have been made using an automated/algorithmic system${s.was_automated === 'yes' ? ' (this was explicitly confirmed by the company)' : ''}.
+
+CONCERNS RAISED:
+
+${s.red_flags.length > 0 ? s.red_flags.map((f, i) => `  ${i+1}. ${prettyFlag(f)}`).join('\n') : '  - The decision appears to lack the transparency and individualized review required by applicable civil rights law.'}
+
+${protectedDesc}
+
+REQUESTED ACTION:
+
+I respectfully request that your agency:
+  1. Investigate whether the decision-maker's algorithm produces disparate outcomes along protected-class lines;
+  2. Determine whether the decision-maker complied with notice and explanation requirements;
+  3. Provide appropriate remedies if violations are found.
+
+Supporting documentation attached:
+${s.documentation.length > 0 ? s.documentation.map(d => `  - ${prettyDoc(d)}`).join('\n') : '  - [List documents you are attaching]'}
+
+I am available to provide additional information as needed.
+
+Sincerely,
+
+[Your Signature]
+[Your Printed Name]
+[Phone] · [Email]`;
+}
+
+function prettyFlag(f) {
+  const map = {
+    generic_reason: 'The reason given for denial was vague or generic.',
+    unknown_factors: 'The denial cited factors I was not given the opportunity to verify or contest.',
+    contradicts_data: 'The denial contradicts my actual records.',
+    zip_factor: 'My zip code or neighborhood appears to have been a decision factor — a known proxy for race in housing and lending.',
+    similar_people_approved: 'Individuals with similar profiles were approved, suggesting disparate treatment.',
+    instant_decision: 'The decision was made in seconds, suggesting fully automated processing with no human review.',
+    refused_explanation: 'When I requested an explanation, I was refused or given a non-responsive answer.',
+    screening_third_party: 'A third-party screening service was used; I have a right to my file under FCRA.',
+    differs_human: 'Even an employee of the decision-maker appeared to disagree with or be unable to explain the outcome.'
+  };
+  return map[f] || f;
+}
+function prettyDoc(d) {
+  const map = {
+    adverse_action: 'Adverse action notice',
+    denial_letter: 'Written denial letter',
+    credit_report: 'Personal credit report',
+    application_copy: 'Copy of application as submitted',
+    screening_file: 'Third-party screening report',
+    none: 'No written documentation (will request)'
+  };
+  return map[d] || d;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PLAN GENERATION
+// ═══════════════════════════════════════════════════════════════════════════
+function generatePlan() {
+  document.getElementById('step-6').style.display = 'none';
+  document.getElementById('nav-row').style.display = 'none';
+  const plan = document.getElementById('action-plan');
+  plan.classList.add('shown');
+
+  // Headline & summary
+  const s = state;
+  const redFlagCount = s.red_flags.length;
+  let urgency = 'low';
+  if (redFlagCount >= 4) urgency = 'high';
+  else if (redFlagCount >= 2) urgency = 'medium';
+
+  document.getElementById('plan-headline').textContent =
+    redFlagCount === 0 ? 'YOUR ACTION PLAN · Low concern indicators' :
+    redFlagCount <= 2 ? 'YOUR ACTION PLAN · Some red flags worth addressing' :
+    'YOUR ACTION PLAN · Multiple red flags warrant immediate action';
+
+  document.getElementById('plan-summary').innerHTML =
+    `Based on your responses, you identified <strong>${redFlagCount} red flag${redFlagCount !== 1 ? 's' : ''}</strong> related to a ${s.decision_type || 'algorithmic'} decision by ${s.decision_maker || 'the decision-maker'}. The action plan below walks you through your enforcement options.`;
+
+  // Red flags section
+  let rfHtml = '<div class="action-section"><h3>Red Flags Identified</h3>';
+  if (s.red_flags.length === 0) {
+    rfHtml += '<p style="color:var(--ink-dim);font-family:\'IBM Plex Serif\';font-size:13px">No red flags were checked. This may indicate a routine denial — but you still have the right to request a written explanation if you don\'t have one.</p>';
+  } else {
+    s.red_flags.forEach((f, i) => {
+      rfHtml += `<div class="red-flag"><div class="flag-label">Flag ${i+1}</div>${prettyFlag(f)}</div>`;
+    });
+  }
+  rfHtml += '</div>';
+  document.getElementById('red-flags-section').innerHTML = rfHtml;
+
+  // Agencies section
+  const agencies = AGENCIES[s.decision_type] || AGENCIES.credit;
+  let agHtml = '<div class="action-section"><h3>Where to File (In Order of Priority)</h3>';
+  agencies.forEach((a, i) => {
+    agHtml += `<div class="action-item">
+      <div class="action-num">${i+1}</div>
+      <div class="action-content">
+        <div class="action-title">${a.name}</div>
+        <div class="action-desc">${a.desc || ''}<br><strong>Deadline:</strong> ${a.deadline}</div>
+        <a class="action-link" href="${a.url}" target="_blank" rel="noopener">▶ File complaint at ${a.url}</a>
+      </div>
+    </div>`;
+  });
+  agHtml += '</div>';
+  document.getElementById('agencies-section').innerHTML = agHtml;
+
+  // Documents section
+  let docHtml = '<div class="action-section"><h3>Documents to Gather</h3>';
+  const docList = [
+    { name: 'Adverse Action Notice', desc: 'The written explanation of denial. If you don\'t have it, you have a federal right to request it (see letter below).' },
+    { name: 'Application Copy', desc: 'A copy of exactly what you submitted, in your records.' },
+    { name: 'Credit Report (Free)', desc: 'From annualcreditreport.com — the only federally authorized free source.', url: 'https://www.annualcreditreport.com' },
+    { name: 'Third-Party Screening Report', desc: 'If a tenant-screening, background-check, or credit-scoring service was used, you have a right to your file under FCRA §609.' },
+    { name: 'Communication Log', desc: 'Dates, times, and contents of any phone calls or messages with the decision-maker.' },
+    { name: 'Comparator Evidence', desc: 'If you know of similarly-situated people who were approved, document what you know (without violating their privacy).' }
+  ];
+  docList.forEach((d, i) => {
+    docHtml += `<div class="action-item">
+      <div class="action-num">${i+1}</div>
+      <div class="action-content">
+        <div class="action-title">${d.name}</div>
+        <div class="action-desc">${d.desc}</div>
+        ${d.url ? `<a class="action-link" href="${d.url}" target="_blank">▶ ${d.url}</a>` : ''}
+      </div>
+    </div>`;
+  });
+  docHtml += '</div>';
+  document.getElementById('documents-section').innerHTML = docHtml;
+
+  // Letters section
+  let letterHtml = '<div class="action-section"><h3>Pre-Filled Letter Templates</h3>';
+  letterHtml += `<div class="action-item">
+    <div class="action-num">A</div>
+    <div class="action-content">
+      <div class="action-title">Letter 1: Request for Adverse Action Notice</div>
+      <div class="action-desc">Send this to ${s.decision_maker || 'the decision-maker'} demanding the written explanation you are legally entitled to.</div>
+      <div class="template-box" id="letter-1">${letterAdverseActionRequest(s)}</div>
+      <div class="template-actions">
+        <button onclick="copyLetter(1)">Copy to Clipboard</button>
+        <button onclick="downloadLetter(1, 'adverse-action-request.txt')">Download as .txt</button>
+      </div>
+    </div>
+  </div>`;
+
+  letterHtml += `<div class="action-item">
+    <div class="action-num">B</div>
+    <div class="action-content">
+      <div class="action-title">Letter 2: Discrimination Complaint to ${agencies[0].name}</div>
+      <div class="action-desc">Send this to the regulator. Customize the bracketed sections with your specific information.</div>
+      <div class="template-box" id="letter-2">${letterDiscriminationComplaint(s, agencies[0].name)}</div>
+      <div class="template-actions">
+        <button onclick="copyLetter(2)">Copy to Clipboard</button>
+        <button onclick="downloadLetter(2, 'discrimination-complaint.txt')">Download as .txt</button>
+      </div>
+    </div>
+  </div>`;
+  letterHtml += '</div>';
+  document.getElementById('letters-section').innerHTML = letterHtml;
+
+  // Resources section
+  let resHtml = '<div class="action-section"><h3>Free Legal Resources</h3>';
+  const resources = [
+    { name: 'Legal Services Corporation – Find Free Legal Help', url: 'https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help', desc: 'National directory of free civil legal aid by state.' },
+    { name: 'NAACP Legal Defense Fund', url: 'https://www.naacpldf.org/', desc: 'Civil rights litigation, including algorithmic discrimination.' },
+    { name: 'ACLU – Find Your State Affiliate', url: 'https://www.aclu.org/about/affiliates', desc: 'Free legal consultation for civil rights matters.' },
+    { name: 'Upturn (algorithmic justice research)', url: 'https://www.upturn.org/', desc: 'Research and advocacy on algorithmic decision-making.' },
+    { name: 'Algorithmic Justice League', url: 'https://www.ajl.org/', desc: 'Reporting tool for algorithmic harm.' },
+    { name: 'Find a Civil Rights Attorney – American Bar Association', url: 'https://www.americanbar.org/groups/legal_services/flh-home/', desc: 'Lawyer referral service by state.' }
+  ];
+  resources.forEach((r, i) => {
+    resHtml += `<div class="action-item">
+      <div class="action-num">${i+1}</div>
+      <div class="action-content">
+        <div class="action-title">${r.name}</div>
+        <div class="action-desc">${r.desc}</div>
+        <a class="action-link" href="${r.url}" target="_blank" rel="noopener">▶ ${r.url}</a>
+      </div>
+    </div>`;
+  });
+  resHtml += '</div>';
+  document.getElementById('resources-section').innerHTML = resHtml;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLetter(n) {
+  const text = document.getElementById(`letter-${n}`).innerText;
+  navigator.clipboard.writeText(text).then(() => alert('Letter copied to clipboard. Paste into your email or word processor to edit.'));
+}
+function downloadLetter(n, filename) {
+  const text = document.getElementById(`letter-${n}`).innerText;
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Init
+showStep(1);
+</script>
+</body>
+</html>
